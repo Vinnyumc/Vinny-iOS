@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct VINNYApp: App {
+    @State var container: DIContainer = DIContainer()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(container: container)
+                .environmentObject(container)
         }
     }
 }
