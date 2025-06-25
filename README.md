@@ -2,13 +2,13 @@
 
 ![배너 이미지 또는 로고](링크)
 
-> 간단한 한 줄 소개 – 프로젝트의 핵심 가치 또는 기능
+> 취향 기반 빈티지샵 탐색 & 스타일 공유 서비스
 
 [![Swift](https://img.shields.io/badge/Swift-6.0-orange.svg)]()
 [![Xcode](https://img.shields.io/badge/Xcode-16.0-blue.svg)]()
 [![License](https://img.shields.io/badge/license-MIT-green.svg)]()
 
----
+</div>
 
 <br>
 
@@ -17,7 +17,7 @@
 |:------:|:------:|:------:|
 | 사진1 | 사진2 | 사진3 |
 | PL | FE | FE |
-| [GitHub] https://github.com/taebin2 | [GitHub] https://github.com/g4oo0 | [GitHub]https://github.com/sososominjun |
+| [GitHub] https://github.com/taebin2 | [GitHub] https://github.com/g4oo0 | [GitHub] https://github.com/sososominjun |
 
 <br>
 
@@ -101,7 +101,7 @@ Swift 6.0
 <br>
 
 ## 🌀 코딩 컨벤션
-https://github.com/StyleShare/swift-style-guide
+https://github.com/StyleShare/swift-style-guide <br>
 해당 주소 참고하여 진행
 
 <br>
@@ -151,7 +151,8 @@ https://github.com/StyleShare/swift-style-guide
   예: chore: .gitignore 파일 수정<br>
 * docs: 문서 추가/수정 (README, 주석 등)<br>
   예: docs: README 파일 수정<br>
-
+* design: 피그마 디자인 수정에 따른 코드 변경 
+  예: design : 로그인 화면 레이아웃 조정
 ### 💬 깃모지 가이드
 
 | 아이콘 | 코드 | 설명 | 원문 |
@@ -176,24 +177,6 @@ https://github.com/StyleShare/swift-style-guide
 | 👽 | alien | 외부 API 변경 반영 | Update code due to external API changes |
 | 🚚 | truck | 리소스 이동, 이름 변경 | Move or rename resources |
 | 🙈 | see_no_evil | .gitignore 추가/수정 | Add or update a .gitignore file |
-
-### 🏷️ 커밋 태그 가이드
-
- | 태그        | 설명                                                   |
-|-------------|--------------------------------------------------------|
-| [Feat]      | 새로운 기능 추가                                       |
-| [Fix]       | 버그 수정                                              |
-| [Docs]      | README, 문서 수정                                     |
-| [Chore]     | 패키지 매니저 설정, 빌드 설정 등 기타 작업           |
-| [Design]    | UI, CSS, 레이아웃 등 디자인 관련 수정                |
-| [Hotfix]    | 운영 중 긴급 수정이 필요한 버그 대응                 |
-
-### ✅ 커밋 예시 모음
-> 🎉 [Chore] 프로젝트 초기 세팅 <br>
-> ✨ [Feat] 프로필 화면 UI 구현 <br>
-> 🐛 [Fix] iOS 17에서 버튼 클릭 오류 수정 <br>
-> 💄 [Design] 로그인 화면 레이아웃 조정 <br>
-> 📝 [Docs] README에 프로젝트 소개 추가 <br>
 
 <br>
 
