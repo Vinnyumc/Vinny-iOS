@@ -1,0 +1,26 @@
+blank_issues_enabled: false
+
+issue_templates:
+  - name: 🐛 버그 수정
+    description: 발견한 문제를 빠르게 메모해두세요!
+    file: ISSUE_TEMPLATE/bug.yml
+
+  - name: ✨ 기능 추가
+    description: 새로 구현하고 싶은 기능이 있다면 적어주세요.
+    file: ISSUE_TEMPLATE/feature.yml
+
+  - name: 📄 문서 작업
+    description: 문서 생성 또는 갱신이 필요할 때 사용합니다.
+    file: ISSUE_TEMPLATE/docs.yml
+
+  - name: 🎨 디자인 제안
+    description: 디자인 시안을 반영하여 UI/UX를 구현할 때 사용합니다.
+    file: ISSUE_TEMPLATE/design.yml
+
+  - name: ♻️ 리팩토링
+    description: 코드 정리 또는 구조 개선 시 사용합니다.
+    file: ISSUE_TEMPLATE/refactor.yml
+
+  - name: 🍀 기타 작업
+    description: 분류되지 않는 기타 작업을 관리할 때 사용합니다.
+    file: ISSUE_TEMPLATE/other.yml
