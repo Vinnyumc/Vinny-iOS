@@ -1,4 +1,4 @@
-# 🚀 프로젝트 이름
+# VINNY
 
 ![배너 이미지 또는 로고](링크)
 
@@ -13,24 +13,24 @@
 <br>
 
 ## 👥 멤버
-| 팀원 1 | 팀원 2 | 팀원 3 | 팀원 4 |
-|:------:|:------:|:------:|:------:|
-| 사진1 | 사진2 | 사진3 | 사진4 |
-| PL | FE | FE | FE |
-| [GitHub](깃허브 링크) | [GitHub](깃허브 링크) | [GitHub](깃허브 링크) | [GitHub](깃허브 링크) |
+| 해태/한태빈 | 소이/홍지우 | 쏘쏘/소민준 |
+|:------:|:------:|:------:|
+| 사진1 | 사진2 | 사진3 |
+| PL | FE | FE |
+| [GitHub] https://github.com/taebin2 | [GitHub] https://github.com/g4oo0 | [GitHub]https://github.com/sososominjun |
 
 <br>
 
 
 ## 📱 소개
 
-> 프로젝트의 주요 목적과 사용자가 얻게 될 경험을 설명해주세요.
+> 취향 기반 빈티지샵 탐색 & 스타일 공유 서비스
 
 <br>
 
 ## 📆 프로젝트 기간
-- 전체 기간: `YYYY.MM.DD - YYYY.MM.DD`
-- 개발 기간: `YYYY.MM.DD - YYYY.MM.DD`
+- 전체 기간: `2025.05.26 - `
+- 개발 기간: `2025.06.23 - `
 
 <br>
 
@@ -55,8 +55,6 @@ Swift 6.0
 <div align="left">
 <img src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white" />
 <img src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white" />
-<img src="https://img.shields.io/badge/SPM-FA7343?style=for-the-badge&logo=swift&logoColor=white" />
-<img src="https://img.shields.io/badge/Fastlane-n?style=for-the-badge&logo=fastlane&logoColor=black" />
 </div>
 
 ### Development
@@ -72,7 +70,6 @@ Swift 6.0
 
 ### Communication
 <div align="left">
-<img src="https://img.shields.io/badge/Miro-FFFC00.svg?style=for-the-badge&logo=Miro&logoColor=050038" />
 <img src="https://img.shields.io/badge/Notion-white.svg?style=for-the-badge&logo=Notion&logoColor=000000" />
 <img src="https://img.shields.io/badge/Discord-5865F2?style=for-the-badge&logo=Discord&logoColor=white" />
 <img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" />
@@ -97,41 +94,15 @@ Swift 6.0
 * `main` - 제품 출시 브랜치
 * `develop` - 출시를 위해 개발하는 브랜치
 * `feat/xx` - 기능 단위로 독립적인 개발 환경을 위해 작성
-* `refac/xx` - 개발된 기능을 리팩토링 하기 위해 작성
 * `hotfix/xx` - 출시 버전에서 발생한 버그를 수정하는 브랜치
-* `chore/xx` - 빌드 작업, 패키지 매니저 설정 등
-* `design/xx` - 디자인 변경
-* `bugfix/xx` - 디자인 변경
 
 
 
 <br>
 
 ## 🌀 코딩 컨벤션
-* 파라미터 이름을 기준으로 줄바꿈 한다.
-```swift
-let actionSheet = UIActionSheet(
-  title: "정말 계정을 삭제하실 건가요?",
-  delegate: self,
-  cancelButtonTitle: "취소",
-  destructiveButtonTitle: "삭제해주세요"
-)
-```
-
-<br>
-
-* if let 구문이 길 경우에 줄바꿈 한다
-```swift
-if let user = self.veryLongFunctionNameWhichReturnsOptionalUser(),
-   let name = user.veryLongFunctionNameWhichReturnsOptionalName(),
-  user.gender == .female {
-  // ...
-}
-```
-
-* 나중에 추가로 작업해야 할 부분에 대해서는 `// TODO: - xxx 주석을 남기도록 한다.`
-* 코드의 섹션을 분리할 때는 `// MARK: - xxx 주석을 남기도록 한다.`
-* 함수에 대해 전부 주석을 남기도록 하여 무슨 액션을 하는지 알 수 있도록 한다.
+https://github.com/StyleShare/swift-style-guide
+해당 주소 참고하여 진행
 
 <br>
 
@@ -148,25 +119,38 @@ if let user = self.veryLongFunctionNameWhichReturnsOptionalUser(),
 |-------------|--------------------------------------------------------|
 | [Feat]      | 새로운 기능 추가                                       |
 | [Fix]       | 버그 수정                                              |
-| [Refactor]  | 코드 리팩토링 (기능 변경 없이 구조 개선)              |
-| [Style]     | 코드 포맷팅, 들여쓰기 수정 등                         |
-| [Docs]      | 문서 관련 수정                                         |
-| [Test]      | 테스트 코드 추가 또는 수정                            |
 | [Chore]     | 빌드/설정 관련 작업                                    |
 | [Design]    | UI 디자인 수정                                         |
-| [Hotfix]    | 운영 중 긴급 수정                                      |
-| [CI/CD]     | 배포 및 워크플로우 관련 작업                          |
 
 ### ✅ PR 예시 모음
 > 🎉 [Chore] 프로젝트 초기 세팅 <br>
 > ✨ [Feat] 프로필 화면 UI 구현 <br>
 > 🐛 [Fix] iOS 17에서 버튼 클릭 오류 수정 <br>
 > 💄 [Design] 로그인 화면 레이아웃 조정 <br>
-> 📝 [Docs] README에 프로젝트 소개 추가 <br>
 
 <br>
 
 ## 📑 커밋 컨벤션
+
+### 커밋 메시지 형식
+```swift
+<타입>: <메시지>
+
+-세부사항1
+-세부사항2
+
+#<이슈번호>
+```
+
+### ✅ 커밋 예시 모음
+* feat: 새로운 기능 추가<br>
+  예: feat: 로그인 화면 UI 구현<br>
+* fix: 버그 수정<br>
+  예: fix: 로그인 오류 수정<br>
+* chore: 기타 작업 (빌드 설정, 패키지 추가 등)<br>
+  예: chore: .gitignore 파일 수정<br>
+* docs: 문서 추가/수정 (README, 주석 등)<br>
+  예: docs: README 파일 수정<br>
 
 ### 💬 깃모지 가이드
 
@@ -199,14 +183,10 @@ if let user = self.veryLongFunctionNameWhichReturnsOptionalUser(),
 |-------------|--------------------------------------------------------|
 | [Feat]      | 새로운 기능 추가                                       |
 | [Fix]       | 버그 수정                                              |
-| [Refactor]  | 코드 리팩토링 (기능 변경 없이 구조 개선)              |
-| [Style]     | 코드 포맷팅, 세미콜론 누락, 들여쓰기 수정 등          |
 | [Docs]      | README, 문서 수정                                     |
-| [Test]      | 테스트 코드 추가 및 수정                              |
 | [Chore]     | 패키지 매니저 설정, 빌드 설정 등 기타 작업           |
 | [Design]    | UI, CSS, 레이아웃 등 디자인 관련 수정                |
 | [Hotfix]    | 운영 중 긴급 수정이 필요한 버그 대응                 |
-| [CI/CD]     | 배포 관련 설정, 워크플로우 구성 등                    |
 
 ### ✅ 커밋 예시 모음
 > 🎉 [Chore] 프로젝트 초기 세팅 <br>
