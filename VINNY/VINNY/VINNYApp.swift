@@ -13,7 +13,9 @@ struct VINNYApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(container: container)
+//            ContentView(container: container)
+//                .environmentObject(container)
+            LoginView(container: container)
                 .environmentObject(container)
         }
     }
