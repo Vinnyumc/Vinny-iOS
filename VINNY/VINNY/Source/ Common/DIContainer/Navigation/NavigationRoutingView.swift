@@ -16,8 +16,11 @@ struct NavigationRoutingView: View {
     
     var body: some View {
         switch destination {
-        case .secondView(let text):
-            SecondView(container: container, text: text)
+        case .VinnyTabView:
+            VinnyTabView(container: container)
+                .environmentObject(container)
+        case .LoginView:
+            LoginView(container: container)
                 .environmentObject(container)
         }
     }

@@ -9,14 +9,15 @@ import Foundation
 
 enum NavigationDestination: Hashable {
     
-    case secondView(text: String)
+    case VinnyTabView
+    case LoginView
     
     static func == (lhs: NavigationDestination, rhs: NavigationDestination) -> Bool {
         switch (lhs, rhs) {
-        case (.secondView(let lhsText), .secondView(let rhsText)):
-              return lhsText == rhsText
-//        case (.secondView2, secondView2):
-//            return true
+        case (.VinnyTabView, .VinnyTabView):
+              return true
+        case (.LoginView, .LoginView):
+              return true
         default:
             return false
         }
@@ -24,9 +25,10 @@ enum NavigationDestination: Hashable {
     
     func hash(into hasher: inout Hasher) {
         switch self {
-        case .secondView(text: let text):
-            hasher.combine("secondView")
-            hasher.combine(text)
+        case .VinnyTabView:
+            hasher.combine("VinnyTabView")
+        case .LoginView:
+            hasher.combine("LoginView")
         }
     }
 }
