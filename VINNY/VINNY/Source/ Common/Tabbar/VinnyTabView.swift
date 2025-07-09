@@ -52,7 +52,7 @@ struct VinnyTabView: View {
                         
                         Text(tab.title)
                             .font(.suit(.regular, size: 12))
-                            .foregroundColor(selectedTab == tab ? Color("ContentBase") : Color("ContentDisabled"))
+                            .foregroundStyle(selectedTab == tab ? Color("ContentBase") : Color("ContentDisabled"))
                     }
 
                 }

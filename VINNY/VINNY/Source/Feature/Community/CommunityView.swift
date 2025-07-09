@@ -10,7 +10,7 @@ import SwiftUI
 struct CommunityView: View {
     var body: some View {
         Text("커뮤니티뷰입니다.")
-            .foregroundColor(Color.white)
+            .foregroundStyle(Color.white)
     }
 }
 

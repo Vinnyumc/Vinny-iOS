@@ -10,7 +10,7 @@ import SwiftUI
 struct MapView: View {
     var body: some View {
         Text("MapView입니다")
-            .foregroundColor(Color.white)
+            .foregroundStyle(Color.white)
 
     }
 }
