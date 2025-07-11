@@ -15,7 +15,7 @@
 ## 👥 멤버
 | 해태/한태빈 | 소이/홍지우 | 쏘쏘/소민준 |
 |:------:|:------:|:------:|
-| ![Image](https://github.com/user-attachments/assets/c9a0f876-3fd5-4266-85df-0bc2e7c20dc1) | ![Image](https://github.com/user-attachments/assets/e3fa83c4-2047-4d49-ba37-453179f495a8) | ![Image](https://github.com/user-attachments/assets/f56679fe-e7e1-4998-a4a9-dd5df761e64d) |
+| ![Image](https://github.com/user-attachments/assets/5e7c1d32-9b2d-43d4-932e-bf8312276734) | ![Image](https://github.com/user-attachments/assets/e3fa83c4-2047-4d49-ba37-453179f495a8) | ![Image](https://github.com/user-attachments/assets/f56679fe-e7e1-4998-a4a9-dd5df761e64d) |
 | PL | FE | FE |
 | [GitHub] https://github.com/taebin2 | [GitHub] https://github.com/g4oo0 | [GitHub] https://github.com/sososominjun |
 
@@ -81,19 +81,16 @@ Swift 6.0
 <table>
   <tr>
     <td>
-      ![Image](https://github.com/user-attachments/assets/00026b75-2bca-44e3-81b4-6b4d2e437998)
+![Image](https://github.com/user-attachments/assets/c9a0f876-3fd5-4266-85df-0bc2e7c20dc1)
     </td>
-    <td>
-      ![Image](https://github.com/user-attachments/assets/98291c3d-b2df-415d-8b93-38162ba388ab)
-    </td>
-   
+
   </tr>
 </table>
 
 ## 🔖 브랜치 컨벤션
 * `main` - 제품 출시 브랜치
 * `develop` - 출시를 위해 개발하는 브랜치
-* `feat/xx` - 기능 단위로 독립적인 개발 환경을 위해 작성
+* `feature/xx` - 기능 단위로 독립적인 개발 환경을 위해 작성
 * `hotfix/xx` - 출시 버전에서 발생한 버그를 수정하는 브랜치
 
 
