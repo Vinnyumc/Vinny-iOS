@@ -1,6 +1,6 @@
 # VINNY
 
-![배너 이미지 또는 로고](링크)
+![Image](https://github.com/user-attachments/assets/00026b75-2bca-44e3-81b4-6b4d2e437998)
 
 > 취향 기반 빈티지샵 탐색 & 스타일 공유 서비스
 
@@ -15,7 +15,7 @@
 ## 👥 멤버
 | 해태/한태빈 | 소이/홍지우 | 쏘쏘/소민준 |
 |:------:|:------:|:------:|
-| 사진1 | 사진2 | 사진3 |
+| ![Image](https://github.com/user-attachments/assets/c9a0f876-3fd5-4266-85df-0bc2e7c20dc1) | ![Image](https://github.com/user-attachments/assets/e3fa83c4-2047-4d49-ba37-453179f495a8) | ![Image](https://github.com/user-attachments/assets/f56679fe-e7e1-4998-a4a9-dd5df761e64d) |
 | PL | FE | FE |
 | [GitHub] https://github.com/taebin2 | [GitHub] https://github.com/g4oo0 | [GitHub] https://github.com/sososominjun |
 
@@ -81,10 +81,10 @@ Swift 6.0
 <table>
   <tr>
     <td>
-      사진 넣어주세요
+      ![Image](https://github.com/user-attachments/assets/00026b75-2bca-44e3-81b4-6b4d2e437998)
     </td>
     <td>
-      사진 넣어주세요
+      ![Image](https://github.com/user-attachments/assets/98291c3d-b2df-415d-8b93-38162ba388ab)
     </td>
    
   </tr>
