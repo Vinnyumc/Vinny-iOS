@@ -15,7 +15,7 @@
 ## 👥 멤버
 | 해태/한태빈 | 소이/홍지우 | 쏘쏘/소민준 |
 |:------:|:------:|:------:|
-| 사진1 | 사진2 | "https://github.com/user-attachments/assets/f56679fe-e7e1-4998-a4a9-dd5df761e64d"/ |
+| 사진1 | 사진2 | https://github.com/user-attachments/assets/f56679fe-e7e1-4998-a4a9-dd5df761e64d |
 | PL | FE | FE |
 | [GitHub] https://github.com/taebin2 | [GitHub] https://github.com/g4oo0 | [GitHub] https://github.com/sososominjun |
 
