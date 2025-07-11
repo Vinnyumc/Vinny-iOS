@@ -78,14 +78,7 @@ Swift 6.0
 <br>
 
 ## 📱 화면 구성
-<table>
-  <tr>
-    <td>
 ![Image](https://github.com/user-attachments/assets/c9a0f876-3fd5-4266-85df-0bc2e7c20dc1)
-    </td>
-
-  </tr>
-</table>
 
 ## 🔖 브랜치 컨벤션
 * `main` - 제품 출시 브랜치
