@@ -107,3 +107,4 @@ struct CategoryView: View {
     CategoryView(container: container)
         .environmentObject(container)
 }
+
