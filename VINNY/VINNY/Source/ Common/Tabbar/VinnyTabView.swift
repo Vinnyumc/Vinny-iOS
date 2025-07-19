@@ -62,7 +62,6 @@ struct VinnyTabView: View {
         }
         .frame(height: 70)
         .background(Color.backRootRegular)
-
     }
 }
 
