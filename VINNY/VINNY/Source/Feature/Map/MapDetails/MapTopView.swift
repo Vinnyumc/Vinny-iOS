@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MapTopView: View {
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack(spacing: 16) {
                 Text("지도")
                     .font(.suit(.bold, size: 24))
@@ -86,6 +86,7 @@ struct MapTopView: View {
             .padding(.horizontal)
             .padding(.bottom, 14)
         }
+        .padding(.top, 54)
         .background(Color.backFillStatic)
         .ignoresSafeArea()
     }
