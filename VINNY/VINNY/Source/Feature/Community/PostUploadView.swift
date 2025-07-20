@@ -23,6 +23,7 @@ struct PostUploadView: View {
     private var styles: [String] = [
         "🪖 밀리터리", "🇺🇸 아메카지", "🛹 스트릿", "🏔️ 아웃도어", "👕 캐주얼", "👖 데님", "💼 하이엔드", "🛠️ 워크웨어", "👞 레더", "‍🏃‍♂️ 스포티", "🐴 웨스턴", "👚 Y2K"
     ]
+    @State private var selectedStyles: Set<String> = []
     
     private var brandTags: [String] = ["발렌시아가", "마르지엘라", "폴로"]
     
@@ -118,7 +119,7 @@ struct PostUploadView: View {
                                 .foregroundStyle(Color.contentAdditive)
                             
                             TextEditor(text: $viewModel.title)
-                                .customStyleEditor(placeholder: "제목은 최대 15자까지 가능해요", userInput: $viewModel.title)
+                                .customStyleEditor(placeholder: "제목은 최대 15자까지 가능해요", userInput: $viewModel.title, maxLength: 15)
                                 .frame(height: 48)
                         }
                         
@@ -130,7 +131,7 @@ struct PostUploadView: View {
                                 .padding(.bottom, 6)
                             
                             TextEditor(text: $viewModel.content)
-                                .customStyleEditor(placeholder: "나만의 멋진 내용을 적어주세요!", userInput: $viewModel.content)
+                                .customStyleEditor(placeholder: "나만의 멋진 내용을 적어주세요!", userInput: $viewModel.content, maxLength: nil)
                                 .frame(height: 156)
                         }
                         .padding(.vertical, 8)
@@ -155,7 +156,17 @@ struct PostUploadView: View {
                                 Button(action: {
                                     print("\(style)")
                                 }) {
-                                    TagComponent(tag: style)
+                                    SelectingTagComponent(
+                                        tag: style,
+                                        selectedTag: selectedStyles.contains(style),
+                                        onTap: {
+                                            if selectedStyles.contains(style) {
+                                                selectedStyles.remove(style)
+                                            } else {
+                                                selectedStyles.insert(style)
+                                            }
+                                        }
+                                    )
                                 }
                             }
                         }
@@ -172,7 +183,7 @@ struct PostUploadView: View {
                             .padding(.bottom, 6)
                         
                         TextEditor(text: $viewModel.brand)
-                            .customStyleEditor(placeholder: "태그할 브랜드를 입력해주세요", userInput: $viewModel.brand)
+                            .customStyleEditor(placeholder: "태그할 브랜드를 입력해주세요", userInput: $viewModel.brand, maxLength: nil)
                             .frame(height: 48)
                             .padding(.vertical, 8)
                         
@@ -194,7 +205,7 @@ struct PostUploadView: View {
                             .padding(.bottom, 6)
                         
                         TextEditor(text: $viewModel.shoptag)
-                            .customStyleEditor(placeholder: "태그할 샵 이름을 입력해주세요", userInput: $viewModel.shoptag)
+                            .customStyleEditor(placeholder: "태그할 샵 이름을 입력해주세요", userInput: $viewModel.shoptag, maxLength: nil)
                             .frame(height: 48)
                             .padding(.vertical, 8)
                     }
@@ -224,18 +235,6 @@ struct PostUploadView: View {
             )
         }
         .background(Color.backFillStatic)
-    }
-    
-    private func TagComponent(tag: String) -> some View {
-        Text("\(tag)")
-            .font(.suit(.medium, size: 14))
-            .foregroundStyle(Color.contentAdditive)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(
-                RoundedRectangle(cornerRadius: 4)
-                    .foregroundStyle(Color.backFillRegular)
-        )
     }
 }
 

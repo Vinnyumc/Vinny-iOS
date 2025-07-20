@@ -54,13 +54,22 @@ struct CommunityView: View {
             /// 스크롤뷰
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    PostCardView()
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 10)
+                    ForEach(0..<5, id: \.self) { post in
+                        PostCardView()
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
+
+                    }
+                    
+                    Spacer()
+                        .frame(height: 56)
                 }
+                .scrollTargetLayout()
             }
+            .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
         }
         .background(Color.backFillStatic)
+        .navigationBarBackButtonHidden()
     }
 }
 

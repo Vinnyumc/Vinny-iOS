@@ -24,93 +24,99 @@ struct PostCardView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack(spacing: 8) {
-                Image("community1") // 프로필 이미지
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .aspectRatio(contentMode: .fill)
-                    .clipShape(Circle())
-                VStack(alignment: .leading, spacing: 2) {
-                    Text("김하니")
-                        .font(.suit(.medium, size: 16))
-                        .foregroundStyle(Color.contentBase)
-                    Text("소개글")
-                        .font(.suit(.light, size: 12))
-                        .foregroundStyle(Color.contentAdditive)
-                }
-                .padding(.horizontal, 4)
-                Spacer()
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
-            
-            /// post 페이지뷰
-            VStack(spacing: 12) {
-                TabView(selection: $currentIndex) {
-                    ForEach(0..<postImages.count, id: \.self) { index in
-                        Image(postImages[index])
+            Button(action: {
+                print("게시글 보기 이동")
+            }) {
+                VStack(alignment: .leading, spacing: 0) {
+                    HStack(spacing: 8) {
+                        Image("community1") // 프로필 이미지
                             .resizable()
+                            .frame(width: 40, height: 40)
                             .aspectRatio(contentMode: .fill)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 282)
-                            .clipped()
+                            .clipShape(Circle())
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("김하니")
+                                .font(.suit(.medium, size: 16))
+                                .foregroundStyle(Color.contentBase)
+                            Text("소개글")
+                                .font(.suit(.light, size: 12))
+                                .foregroundStyle(Color.contentAdditive)
+                        }
+                        .padding(.horizontal, 4)
+                        Spacer()
                     }
-                }
-                .frame(height: 282)
-                .padding(.vertical, 4)
-                .tabViewStyle(.page(indexDisplayMode: .never))
-                
-                /// 커스텀 인디케이터( 커스텀 안 쓰니 이미지 안으로 들어가서 커스텀 쓰기로 함)
-                HStack(spacing: 4) {
-                    ForEach(0..<postImages.count, id: \.self) { index in
-                        Circle()
-                            .fill(index == currentIndex ? Color.gray : Color.gray.opacity(0.3))
-                            .frame(width: 4, height: 4)
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    
+                    /// post 페이지뷰
+                    VStack(spacing: 0) {
+                        TabView(selection: $currentIndex) {
+                            ForEach(0..<postImages.count, id: \.self) { index in
+                                Image(postImages[index])
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 282)
+                                    .clipped()
+                            }
+                        }
+                        .frame(height: 282)
+                        .padding(.vertical, 4)
+                        .tabViewStyle(.page(indexDisplayMode: .never))
+                        
+                        /// 커스텀 인디케이터( 커스텀 안 쓰니 이미지 안으로 들어가서 커스텀 쓰기로 함)
+                        HStack(spacing: 4) {
+                            ForEach(0..<postImages.count, id: \.self) { index in
+                                Circle()
+                                    .fill(index == currentIndex ? Color.gray : Color.gray.opacity(0.3))
+                                    .frame(width: 4, height: 4)
+                            }
+                        }
+                        .animation(.easeInOut, value: currentIndex)
+                        .padding(.top, 8)
                     }
+                    
+                    /// tags
+                    HStack(spacing: 6) {
+                        HStack(spacing: 4) {
+                            Image("mapPinFill")
+                                .resizable()
+                                .frame(width: 16, height: 16)
+                            Text("\(shopName)") // 샵 이름 태그
+                                .font(.suit(.medium, size: 12))
+                                .foregroundStyle(Color.contentAdditive)
+                        }
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(
+                            RoundedRectangle(cornerRadius: 4)
+                                .foregroundStyle(Color.backFillRegular)
+                        )
+                        
+                        ForEach(tags, id: \.self) { category in
+                            TagComponent(tag: category)
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("\(postTime)")
+                            .font(.suit(.medium, size: 12))
+                            .foregroundStyle(Color.contentAssistive)
+                        Text("\(title)")
+                            .font(.suit(.bold, size: 18))
+                            .foregroundStyle(Color.contentBase)
+                        Text("\(content)")
+                            .font(.suit(.light, size: 14))
+                            .foregroundStyle(Color.contentAdditive)
+                    }
+                    .padding(.horizontal, 20)
+                    .padding(.vertical, 10)
+                    
                 }
-                .animation(.easeInOut, value: currentIndex)
-                .padding(.top, 8)
             }
-            
-            /// tags
-            HStack(spacing: 6) {
-                HStack(spacing: 4) {
-                    Image("mapPinFill")
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                    Text("\(shopName)") // 샵 이름 태그
-                        .font(.suit(.medium, size: 12))
-                        .foregroundStyle(Color.contentAdditive)
-                }
-                .padding(.horizontal, 6)
-                .padding(.vertical, 2)
-                .background(
-                    RoundedRectangle(cornerRadius: 4)
-                        .foregroundStyle(Color.backFillRegular)
-                )
-                
-                ForEach(tags, id: \.self) { category in
-                    TagComponent(tag: category)
-                }
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
-            
-            VStack(alignment: .leading, spacing: 2) {
-                Text("\(postTime)")
-                    .font(.suit(.medium, size: 12))
-                    .foregroundStyle(Color.contentAssistive)
-                Text("\(title)")
-                    .font(.suit(.bold, size: 18))
-                    .foregroundStyle(Color.contentBase)
-                Text("\(content)")
-                    .font(.suit(.light, size: 14))
-                    .foregroundStyle(Color.contentAdditive)
-            }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-            
             HStack(spacing: 6) {
                 Button(action: {
                     isLiked.toggle()
@@ -140,18 +146,6 @@ struct PostCardView: View {
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color.backFillRegular)
-        )
-    }
-    
-    private func TagComponent(tag: String) -> some View {
-        Text("\(tag)")
-            .font(.suit(.medium, size: 12))
-            .foregroundStyle(Color.contentAdditive)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(
-                RoundedRectangle(cornerRadius: 4)
-                    .foregroundStyle(Color.backFillRegular)
         )
     }
 }

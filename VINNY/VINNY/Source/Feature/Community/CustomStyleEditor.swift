@@ -11,64 +11,59 @@ struct CustomTextEditorStyle: ViewModifier {
     let placeholder: String
     @Binding var text: String // 글자 수 받기 위해 @Binding 사용
     let showCount: Bool
+    let maxLength: Int?
     
     func body(content: Content) -> some View {
         content
-            .padding(6)
+            .font(.suit(.light, size: 16))
+            .foregroundStyle(Color.contentAdditive)
+            .padding(.vertical,4)
+            .padding(.horizontal, 12)
             .background(alignment: .topLeading) {
                 if text.isEmpty {
                     Text(placeholder)
-                        .lineSpacing(8)
-                        .padding(.vertical, 12)
-                        .padding(.horizontal, 16)
                         .font(.suit(.light, size: 16))
                         .foregroundStyle(Color.contentAssistive)
+                        .padding(.top, 12) // 정확히 맞추기
+                        .padding(.leading, 16)
                 }
             }
-            .autocorrectionDisabled()
+            .autocorrectionDisabled() /// 자동 오타 수정 기능 끄기
             .background(Color.backFillRegular)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .scrollContentBackground(.hidden)
-            .font(.suit(.light, size: 16))
-            .foregroundStyle(Color.contentAdditive)
-            .modifier(ConditionalOverlay(show: showCount, text: $text))
+            .modifier(ConditionalOverlay(show: showCount, text: $text, maxLength: maxLength))
     }
 }
 
 struct ConditionalOverlay: ViewModifier {
     let show: Bool
     @Binding var text: String
+    let maxLength: Int?
     
     func body(content: Content) -> some View {
-        if show {
-            content.overlay(alignment: .topTrailing) {
-                Button(action: {
-                    print("닫기")
-                }) {
-                    Image("close")
-                        .resizable()
-                        .frame(width: 24, height: 24)
-                        .padding(.top, 12)
-                        .padding(.trailing, 16)
-                }
-                .onChange(of: text) {
-                    if text.count > 15 {
-                        text = String(text.prefix(15))
+        HStack(spacing: 0) {
+            if show {
+                content.overlay(alignment: .topTrailing) {
+                    Button(action: {
+                        print("지우기")
+                        text = ""
+                    }) {
+                        Image("close")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .padding(.top, 12)
+                            .padding(.trailing, 16)
+                    }
+                    .onChange(of: text) {
+                        if let maxLength, text.count > maxLength {
+                            text = String(text.prefix(maxLength))
+                        }
                     }
                 }
-//                Text("\(text.count) / 500")
-//                    .font(.suit(.light, size: 16))
-//                    .foregroundStyle(Color.contentAssistive)
-//                    .padding(.trailing, 15)
-//                    .padding(.bottom, 15)
-//                    .onChange(of: text) {
-//                        if text.count > 500 {
-//                            text = String(text.prefix(500))
-//                        }
-//                    }
+            } else {
+                content
             }
-        } else {
-            content
         }
     }
 }
@@ -77,12 +72,14 @@ extension TextEditor {
     func customStyleEditor(
         placeholder: String,
         userInput: Binding<String>,
-        showCount: Bool = true
+        showCount: Bool = true,
+        maxLength: Int? = nil // nil이면 글자 수 제한 없음
     ) -> some View {
         self.modifier(CustomTextEditorStyle(
             placeholder: placeholder,
             text: userInput,
-            showCount: showCount
+            showCount: showCount,
+            maxLength: maxLength
         ))
     }
 }
