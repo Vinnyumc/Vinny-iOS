@@ -113,18 +113,6 @@ struct ShopInfoSheet: View {
         }
         .ignoresSafeArea()
     }
-    
-    private func TagComponent(tag: String) -> some View {
-        Text("\(tag)")
-            .font(.system(size: 12))
-            .foregroundStyle(Color.contentAdditive)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .background(
-                RoundedRectangle(cornerRadius: 4)
-                    .foregroundStyle(Color.backFillRegular)
-        )
-    }
 }
 
 //#Preview {
