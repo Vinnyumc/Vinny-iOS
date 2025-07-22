@@ -10,6 +10,7 @@ import SwiftUI
 import MapKit
 import Observation
 
+@MainActor
 @Observable
 final class MapViewModel {
     
@@ -25,6 +26,7 @@ final class MapViewModel {
     ]
     
     var selectedMarker: Marker? = nil
+    
     
     init() {
         if let location = LocationManager.shared.currentLocation {

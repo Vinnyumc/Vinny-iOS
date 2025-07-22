@@ -58,21 +58,26 @@ struct MapTopView: View {
                             .foregroundStyle(Color.backFillRegular)
                     )
                 
-                HStack(spacing: 2) {
-                    Image("reset")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                    
-                    Text("현 위치에서 검색")
-                        .font(.suit(.medium, size: 14))
-                        .foregroundStyle(Color.contentBase)
+                Button(action: {
+                    print("현 위치에서 검색")
+                    LocationManager.shared.startUpdatingLocation()
+                }) {
+                    HStack(spacing: 2) {
+                        Image("reset")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        
+                        Text("현 위치에서 검색")
+                            .font(.suit(.medium, size: 14))
+                            .foregroundStyle(Color.contentBase)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .foregroundStyle(Color.backFillRegular)
+                    )
                 }
-                .frame(maxWidth: .infinity)
-                .padding(12)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .foregroundStyle(Color.backFillRegular)
-                )
                 
                 Image("icon")
                     .resizable()
