@@ -14,7 +14,7 @@ import UIKit
 struct MapView: View {
     
     @Bindable private var locationManager = LocationManager.shared
-    @Bindable private var viewModel: MapViewModel = .init()
+    @State private var viewModel: MapViewModel = .init()
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -22,12 +22,12 @@ struct MapView: View {
             
             MapTopView()
         }
-        .navigationBarBackButtonHidden()
-        .ignoresSafeArea()
         .sheet(item: $viewModel.selectedMarker) { marker in
             ShopInfoSheet(shopName: marker.title)
                 .presentationDetents([.height(300)])
         }
+        .navigationBarBackButtonHidden()
+        .ignoresSafeArea()
         .background(Color.backFillStatic)
     }
 }

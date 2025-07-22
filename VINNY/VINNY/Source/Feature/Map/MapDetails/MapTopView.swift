@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MapTopView: View {
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack(spacing: 16) {
                 Text("지도")
                     .font(.suit(.bold, size: 24))
@@ -58,21 +58,26 @@ struct MapTopView: View {
                             .foregroundStyle(Color.backFillRegular)
                     )
                 
-                HStack(spacing: 2) {
-                    Image("reset")
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                    
-                    Text("현 위치에서 검색")
-                        .font(.suit(.medium, size: 14))
-                        .foregroundStyle(Color.contentBase)
+                Button(action: {
+                    print("현 위치에서 검색")
+                    LocationManager.shared.startUpdatingLocation()
+                }) {
+                    HStack(spacing: 2) {
+                        Image("reset")
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        
+                        Text("현 위치에서 검색")
+                            .font(.suit(.medium, size: 14))
+                            .foregroundStyle(Color.contentBase)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .foregroundStyle(Color.backFillRegular)
+                    )
                 }
-                .frame(maxWidth: .infinity)
-                .padding(12)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .foregroundStyle(Color.backFillRegular)
-                )
                 
                 Image("icon")
                     .resizable()
@@ -86,6 +91,7 @@ struct MapTopView: View {
             .padding(.horizontal)
             .padding(.bottom, 14)
         }
+        .padding(.top, 54)
         .background(Color.backFillStatic)
         .ignoresSafeArea()
     }
