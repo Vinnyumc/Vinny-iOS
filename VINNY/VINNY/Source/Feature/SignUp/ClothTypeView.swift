@@ -22,82 +22,70 @@ struct ClothTypeView: View {
         GridItem(.flexible(), spacing: 12),
         GridItem(.flexible(), spacing: 12)
     ]
-    
 
     var body: some View {
-        ZStack{
+        ZStack(alignment: .bottom) {
             Color.backRootRegular
                 .ignoresSafeArea()
-            
-            //맨 위 텍스트 두 줄
-            VStack{
-                VStack(spacing: 2){
+            VStack(spacing: 0) {
+                VStack(spacing: 2) {
                     Text("어떤 옷을 주로 찾으시나요?")
                         .font(.suit(.bold, size: 20))
                         .foregroundStyle(Color("ContentBase"))
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 20)
+
                     Text("최대 3개까지 선택할 수 있어요.")
                         .font(.suit(.medium, size: 16))
                         .foregroundStyle(Color("ContentAdditive"))
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.horizontal, 20)
+                        .padding(.bottom, 16)
                 }
-                
-                // 2*4 버튼들
+                .padding(.bottom, 154.5)
+
                 LazyVGrid(columns: columns, spacing: 12) {
-                    ForEach(categories, id: \.self) {categories in
-                        let isSelected = selectedCategories.contains(categories)
-                        Text(categories)
+                    ForEach(categories, id: \.self) { category in
+                        let isSelected = selectedCategories.contains(category)
+                        Text(category)
                             .font(.suit(.regular, size: 16))
                             .foregroundStyle(isSelected ? Color("ContentAdditive") : Color("ContentDisabled"))
                             .frame(maxWidth: .infinity, minHeight: 44)
                             .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
+                                RoundedRectangle(cornerRadius: 8)
                                     .stroke(isSelected ? Color("BorderOutlineStrong") : Color("BackFillRegular"), lineWidth: 2)
-                                                   )
+                            )
                             .background(
                                 RoundedRectangle(cornerRadius: 8)
                                     .fill(Color("BackFillRegular"))
                             )
                             .onTapGesture {
-                                toggleSelection(for: categories)
+                                toggleSelection(for: category)
                             }
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.top, 170)
-                
-                // 다음으로 버튼
-                Button(action:{
-                    
-                }){
-                    Text("다음으로")
-                        .font(.suit(.medium, size: 16))
-                        .foregroundStyle(selectedCategories.isEmpty ? Color("ContentBase") : Color("ContentInverted"))
-                        .frame(maxWidth: .infinity, minHeight: 56)
-                        .background(selectedCategories.isEmpty ? Color("BackFillRegular") : Color("BackFillInverted"))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                }
-                .disabled(selectedCategories.isEmpty)
-                .padding(.horizontal, 20)
-                .padding(.top, 164)
-                
-                // 선택에 대한 정보 문구
-                Text("최소 한 개를 선택해야 다음으로 넘어갈 수 있어요")
-                    .font(.suit(.regular, size: 12))
-                    .foregroundStyle(Color("ContentAssistive"))
-                    .padding(.top, 8)
-                        }
+                .padding(.bottom, 164.5)
+                Spacer().frame(height: 120) // 버튼 영역 확보!
             }
+
+            LoginBottomView(
+                title: "다음으로",
+                isEnabled: !selectedCategories.isEmpty,
+                action: {
+                    container.navigationRouter.push(to: .LocationView)
+                },
+                assistiveText: "최소 한 개를 선택해야 다음으로 넘어갈 수 있어요"
+            )
         }
+        .ignoresSafeArea(edges: .bottom)
+    }
+
     private func toggleSelection(for category: String) {
         if selectedCategories.contains(category) {
             selectedCategories.remove(category)
-        } else {
-            if selectedCategories.count < maxSelectionCount {
-                selectedCategories.insert(category)
-            }
+        } else if selectedCategories.count < maxSelectionCount {
+            selectedCategories.insert(category)
         }
     }
 }

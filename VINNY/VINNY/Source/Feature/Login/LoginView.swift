@@ -47,7 +47,7 @@ struct LoginView: View {
 
     private var loginButton: some View {
         Button(action: {
-            container.navigationRouter.push(to: .VinnyTabView)
+            container.navigationRouter.push(to: .CategoryView)
         }) {
             Text("카카오로 시작하기")
                 .font(.suit(.medium, size: 16))
