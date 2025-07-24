@@ -21,7 +21,6 @@ struct LoginView: View {
                                     .environmentObject(container)
                             }
             }
-            
         }
     }
             
