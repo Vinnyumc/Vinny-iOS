@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+
     @State var selectedFilter: Int = 0
     let filters: [String] = ["추천", "랭킹", "인기"]
     let isNewRecommend: Bool = true

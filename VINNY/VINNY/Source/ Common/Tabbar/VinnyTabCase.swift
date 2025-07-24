@@ -10,6 +10,7 @@ import SwiftUI
 
 enum SBTabCase: String, CaseIterable {
 
+    case home = "home"
     case map = "map"
     case community = "community"
     case myprofile = "myprofile"
@@ -26,6 +27,7 @@ enum SBTabCase: String, CaseIterable {
     
     var title: String {
         switch self{
+        case .home: return "홈"
         case .map: return "지도"
         case .community: return "커뮤니티"
         case .myprofile: return "프로필"
@@ -35,6 +37,8 @@ enum SBTabCase: String, CaseIterable {
     /// 탭 아이템에 해당하는 콘텐트 뷰
     var contentView: some View {
         switch self {
+        case .home:
+            return AnyView(HomeView())
         case .map:
             return AnyView(MapView())
         case .community:

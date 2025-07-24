@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CommunityView: View {
     var body: some View {
+
         VStack(spacing: 0) {
             /// 상단 고정
             VStack(spacing: 0) {

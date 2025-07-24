@@ -10,7 +10,7 @@ import SwiftUI
 struct MyProfileView: View {
     var body: some View {
         Text("MyProFileView 입니다.")
-            .foregroundColor(Color.white)
+            .foregroundStyle(Color.white)
 
     }
 }
