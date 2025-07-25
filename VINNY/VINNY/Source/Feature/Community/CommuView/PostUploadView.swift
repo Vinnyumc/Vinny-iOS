@@ -6,13 +6,23 @@
 //
 
 import SwiftUI
+import PhotosUI
+
+struct FileDetails: Identifiable {
+    var id: String { name }
+    let name: String
+    let fileType: UTType
+}
 
 struct PostUploadView: View {
     @StateObject var viewModel = PostUploadViewModel()
-    @State private var selectedImageCount: Int = 0
     
-    private var postImages: [String] = ["emptyBigImage"]
-    @State private var currentIndex: Int = 0
+    /// 이미지 업로드 관련 상태
+    @State private var showPhotosPicker = false // 포토 피커(이미지 선택 창) 표시 여부
+    @State private var selectedItems: [PhotosPickerItem] = [] // 선택된 이미지 아이템들
+    @State private var selectedImageCount: Int = 0 // 현재까지 선택된 이미지 개수
+    @State private var postImages: [UIImage] = [] // 실제 업로드할 이미지 배열
+    @State private var currentIndex: Int = 0 // 이미지 페이지 뷰의 현재 인덱스
     
     let columns = [
         GridItem(.flexible(), spacing: 8),
@@ -49,17 +59,26 @@ struct PostUploadView: View {
             
             Divider()
             
+            // MARK: - 스크롤뷰
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 0) {
-                    // MARK: - 페이지뷰
+                    // MARK: - 페이지뷰(선택된 이미지들)
                     VStack(spacing: 12) {
                         TabView(selection: $currentIndex) {
-                            ForEach(0..<postImages.count, id: \.self) { index in
-                                Image(postImages[index])
+                            if postImages.isEmpty {
+                                Image("emptyBigImage")
                                     .resizable()
                                     .aspectRatio(1, contentMode: .fill)
                                     .frame(maxWidth: .infinity)
                                     .padding(.top, 4)
+                            } else {
+                                ForEach(0..<postImages.count, id: \.self) { index in
+                                    Image(uiImage: postImages[index])
+                                        .resizable()
+                                        .aspectRatio(1, contentMode: .fill)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.top, 4)
+                                }
                             }
                         }
                         .aspectRatio(1, contentMode: .fill)
@@ -68,7 +87,8 @@ struct PostUploadView: View {
                         
                         /// PostCard와 동일
                         HStack(spacing: 4) {
-                            ForEach(0..<postImages.count, id: \.self) { index in
+                            let count = postImages.isEmpty ? 1 : postImages.count
+                            ForEach(0..<count, id: \.self) { index in
                                 Circle()
                                     .fill(index == currentIndex ? Color.gray : Color.gray.opacity(0.3))
                                     .frame(width: 4, height: 4)
@@ -92,10 +112,43 @@ struct PostUploadView: View {
                                 .foregroundStyle(Color.contentAssistive)
                         }
                         
-                        Image("emptyBigImage")
-                            .resizable()
-                            .frame(width: 80, height: 80)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            LazyHStack(spacing: 8) {
+                                ForEach(0..<postImages.count, id: \.self) { index in
+                                    Image(uiImage: postImages[index])
+                                        .resizable()
+                                        .frame(width: 80, height: 80)
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                }
+                                
+                                /// 버튼 누를 시 이미지 선택 할 수 있도록
+                                Button(action: {
+                                    showPhotosPicker = true
+                                }) {
+                                    Image("emptyBigImage")
+                                        .resizable()
+                                        .frame(width: 80, height: 80)
+                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                                }
+                                .photosPicker(isPresented: $showPhotosPicker,
+                                              selection: $selectedItems,
+                                              maxSelectionCount: 5, matching: .images,
+                                              photoLibrary: .shared()
+                                )
+                                .onChange(of: selectedItems) { oldItems, newItems in
+                                    Task {
+                                        postImages = []
+                                        for item in newItems {
+                                            if let data = try? await item.loadTransferable(type: Data.self),
+                                               let image = UIImage(data: data) {
+                                                postImages.append(image)
+                                            }
+                                        }
+                                        selectedImageCount = postImages.count
+                                    }
+                                }
+                            }
+                        }
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 10)
@@ -131,7 +184,7 @@ struct PostUploadView: View {
                                 .padding(.bottom, 6)
                             
                             TextEditor(text: $viewModel.content)
-                                .customStyleEditor(placeholder: "나만의 멋진 내용을 적어주세요!", userInput: $viewModel.content, maxLength: nil)
+                                .customStyleEditor(placeholder: "나만의 멋진 내용을 적어주세요!", userInput: $viewModel.content, maxLength: 100)
                                 .frame(height: 156)
                         }
                         .padding(.vertical, 8)
