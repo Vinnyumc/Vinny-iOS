@@ -31,6 +31,24 @@ struct BrandView: View {
             Color.backRootRegular
                 .ignoresSafeArea()
             VStack(spacing: 0) {
+                //상단바
+                ZStack {
+                    HStack {
+                        Button (action: {
+                            container.navigationRouter.pop()                 }) {
+                            Image("arrowBack")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                        }
+                        Spacer()
+                    }
+                    Text("가입하기")
+                        .font(.suit(.regular, size: 18))
+                        .foregroundStyle(Color.contentBase)
+                }
+                .padding(16)
+                
+                
                 // 상단 설명
                 VStack(spacing: 2) {
                     Text("좋아하는 브랜드를 최대 5개 골라주세요.")
@@ -89,6 +107,7 @@ struct BrandView: View {
                 assistiveText: "최소 한 개를 선택해야 다음으로 넘어갈 수 있어요"
             )
         }
+        .navigationBarBackButtonHidden()
         .ignoresSafeArea(edges: .bottom)
     }
 

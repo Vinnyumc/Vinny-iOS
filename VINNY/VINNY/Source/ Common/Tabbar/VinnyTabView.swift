@@ -15,7 +15,7 @@ struct VinnyTabView: View {
 
     // MARK: - @State
     /// 현재 탭
-    @State private var selectedTab: SBTabCase = .map
+    @State private var selectedTab: SBTabCase = .home
 
     var body: some View {
         ZStack {

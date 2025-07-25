@@ -28,6 +28,25 @@ struct LocationView: View {
                 Color.backRootRegular
                     .ignoresSafeArea()
                 VStack(spacing: 0) {
+                    //상단바
+                    ZStack {
+                        HStack {
+                            Button (action: {
+                                container.navigationRouter.pop()                 }) {
+                                Image("arrowBack")
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                            }
+                            Spacer()
+                        }
+                        Text("가입하기")
+                            .font(.suit(.regular, size: 18))
+                            .foregroundStyle(Color.contentBase)
+                    }
+                    .padding(16)
+                    
+                    Divider()
+                    
                     VStack(spacing: 2) {
                         Text("마지막이에요! 관심 지역을 선택해주세요")
                             .font(.suit(.bold, size: 20))
@@ -79,6 +98,7 @@ struct LocationView: View {
                     assistiveText: "최소 한 개를 선택해야 다음으로 넘어갈 수 있어요"
                 )
             }
+            .navigationBarBackButtonHidden()
             .ignoresSafeArea(edges: .bottom)
         }
 

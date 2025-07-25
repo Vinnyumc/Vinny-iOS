@@ -61,6 +61,7 @@ struct HomeView: View {
             // MARK: - TabView, 스크롤뷰
             HomeTabView
         }
+        .navigationBarBackButtonHidden()
         .background(Color.backFillStatic)
     }
     

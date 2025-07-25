@@ -50,7 +50,7 @@ struct LoginView: View {
         }) {
             Text("카카오로 시작하기")
                 .font(.suit(.medium, size: 16))
-                .foregroundColor(Color("ContentInverted"))
+                .foregroundStyle(Color("ContentInverted"))
                 .frame(maxWidth: .infinity)
                 .frame(height: 56)
                 .background(Color("BackFillInverted"))
