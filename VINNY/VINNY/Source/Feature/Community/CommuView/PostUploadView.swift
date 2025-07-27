@@ -36,6 +36,7 @@ struct PostUploadView: View {
     @State private var selectedStyles: Set<String> = []
     
     private var brandTags: [String] = ["발렌시아가", "마르지엘라", "폴로"]
+    private var shopTags: [String] = ["샵 이름1", "샵 이름2"]
     
     var body: some View {
         VStack(spacing: 0) {
@@ -240,9 +241,15 @@ struct PostUploadView: View {
                             .frame(height: 48)
                             .padding(.vertical, 8)
                         
+                        Text("태그된 브랜드")
+                            .font(.suit(.light, size: 14))
+                            .foregroundStyle(Color.contentBase)
+                            .padding(.top, 10)
+                            .padding(.bottom, 6)
+                        
                         HStack(spacing: 8) {
                             ForEach(brandTags, id: \.self) { style in
-                                TagComponent(tag: style)
+                                BrandTagComponent(tag: style)
                             }
                         }
                         .padding(.vertical, 10)
@@ -261,6 +268,19 @@ struct PostUploadView: View {
                             .customStyleEditor(placeholder: "태그할 샵 이름을 입력해주세요", userInput: $viewModel.shoptag, maxLength: nil)
                             .frame(height: 48)
                             .padding(.vertical, 8)
+                        
+                        Text("태그된 샵")
+                            .font(.suit(.light, size: 14))
+                            .foregroundStyle(Color.contentBase)
+                            .padding(.top, 10)
+                            .padding(.bottom, 6)
+                        
+                        VStack(spacing: 20) {
+                            ForEach(shopTags, id: \.self) { style in
+                                ShopTagComponent(tag: style)
+                            }
+                        }
+                        .padding(.vertical, 10)
                     }
                     .padding(.horizontal, 16)
                 }
@@ -288,6 +308,64 @@ struct PostUploadView: View {
             )
         }
         .background(Color.backFillStatic)
+    }
+    
+    private func BrandTagComponent(tag: String) -> some View {
+        HStack(spacing: 6) {
+            Text("\(tag)")
+                .font(.suit(.medium, size: 14))
+                .foregroundStyle(Color.contentAdditive)
+            
+            Button(action: {
+                print("취소") // 취소 시 액션
+            }) {
+                Image("close")
+                    .resizable()
+                    .frame(width: 20, height: 20)
+            }
+        }
+        .padding(.horizontal, 6)
+        .padding(.vertical, 2)
+        .background(
+            RoundedRectangle(cornerRadius: 4)
+                .foregroundStyle(Color.backFillRegular)
+        )
+    }
+    
+    private func ShopTagComponent(tag: String) -> some View {
+        HStack(spacing: 8) {
+            Image("emptyImage")
+                .resizable()
+                .frame(width: 40, height: 40)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("\(tag)")
+                    .font(.system(size: 18))
+                    .foregroundStyle(Color.contentBase)
+                Text("샵주소")
+                    .font(.system(size: 12))
+                    .foregroundStyle(Color.contentAdditive)
+            }
+            Spacer()
+            Button(action: {
+                print("삭제") // 삭제 시 액션
+            }) {
+                HStack(spacing: 2) {
+                    Image("remove")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                    
+                    Text("삭제")
+                        .font(.suit(.medium, size: 14))
+                        .foregroundStyle(Color.contentAdditive)
+                        .padding(.vertical, 2)
+                }
+                .padding(10)
+                .background(
+                    RoundedRectangle(cornerRadius: 4)
+                        .foregroundStyle(Color.backFillRegular)
+                )
+            }
+        }
     }
 }
 

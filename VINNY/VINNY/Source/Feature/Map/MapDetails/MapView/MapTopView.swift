@@ -59,8 +59,15 @@ struct MapTopView: View {
                     )
                 
                 Button(action: {
-                    print("현 위치에서 검색")
-                    LocationManager.shared.startUpdatingLocation()
+                    LocationManager.shared.startUpdatingLocation() // 위치 정보 최신화
+                    
+                    // 현재 위치가 있을면 지도에 전달
+                    if let location = LocationManager.shared.currentLocation {
+                        NotificationCenter.default.post(name: .moveMapToCurrentLocation, object: location)
+                        
+                        // 지도 이동 허용 (추적 모드 활성화)
+                        NotificationCenter.default.post(name: .setMapTrackingEnabled, object: true)
+                    }
                 }) {
                     HStack(spacing: 2) {
                         Image("reset")
@@ -95,6 +102,11 @@ struct MapTopView: View {
         .background(Color.backFillStatic)
         .ignoresSafeArea()
     }
+}
+
+extension Notification.Name {
+    static let moveMapToCurrentLocation = Notification.Name("moveMapToCurrentLocation")
+    static let setMapTrackingEnabled = Notification.Name("setMapTrackingEnabled")
 }
 
 #Preview {
