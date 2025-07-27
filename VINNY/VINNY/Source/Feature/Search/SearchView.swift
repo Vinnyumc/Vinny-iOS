@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct SearchView: View {
+    @EnvironmentObject var container: DIContainer
+    init(container : DIContainer){
+        
+    }
+   
     @StateObject private var viewModel = SearchViewModel()
 
     let columns = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
@@ -20,7 +25,6 @@ struct SearchView: View {
                 VStack(alignment: .leading, spacing: 16) {
                     switch viewModel.state {
                     case .showingDefault:
-                        recentKeywordSection
                         categorySection
                     case .searching:
                         searchResultSection
@@ -51,50 +55,38 @@ struct SearchView: View {
     }
 
     private var searchBar: some View {
-        HStack {
-            Image(systemName: "magnifyingglass")
-                .foregroundColor(.gray)
+        HStack(spacing: 8) {
+            Image("magnifier")
+                .resizable()
+                .frame(width: 24, height: 24)
+            
             TextField("빈티지샵, 게시글 검색하기", text: $viewModel.searchText)
                 .foregroundColor(.white)
+                .font(.suit(.regular, size: 16))
+                .onTapGesture {
+                    viewModel.state = .searching(viewModel.searchText)
+                }
+
+            Spacer()
+
+            if !viewModel.searchText.isEmpty {
+                Button(action: {
+                    viewModel.searchText = ""
+                }) {
+                    Image("close")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                }
+            }
         }
-        .padding()
-        .background(Color("searchFieldBackground"))
-        .cornerRadius(10)
+        .padding(.horizontal, 16)
+        .padding(.vertical, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .foregroundStyle(Color.backFillRegular)
+        )
         .padding(.horizontal, 20)
         .padding(.top, 12)
-    }
-
-    private var recentKeywordSection: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Text("최근 검색어")
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(.white)
-                Spacer()
-                Button("모두 삭제") {
-                    viewModel.clearAllKeywords()
-                }
-                .font(.system(size: 13))
-                .foregroundColor(.gray)
-            }
-
-            LazyVStack(alignment: .leading, spacing: 8) {
-                ForEach(viewModel.recentKeywords, id: \.self) { keyword in
-                    HStack {
-                        Text(keyword)
-                            .foregroundColor(.white)
-                        Spacer()
-                        Button {
-                            viewModel.removeKeyword(keyword)
-                        } label: {
-                            Image(systemName: "xmark")
-                                .foregroundColor(.gray)
-                                .font(.system(size: 12))
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private var categorySection: some View {
@@ -104,8 +96,8 @@ struct SearchView: View {
                 .foregroundColor(.white)
 
             LazyVGrid(columns: columns, spacing: 12) {
-                ForEach(Category.sampleList) { category in
-                    CategoryItemView(category: category)
+                ForEach(CategoryItem.sampleList) { category in
+                    CategoryItemView(categoryItem: category)
                 }
             }
         }
@@ -120,7 +112,7 @@ struct SearchView: View {
     }
 }
 #Preview {
-    NavigationStack {
-        SearchView()
-    }
+    let container = DIContainer()
+    SearchView(container: container)
+        .environmentObject(container)
 }

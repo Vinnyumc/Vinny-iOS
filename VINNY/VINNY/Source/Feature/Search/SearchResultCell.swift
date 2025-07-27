@@ -15,12 +15,24 @@ struct SearchResultCell: View {
         VStack(alignment: .leading, spacing: 10) {
             HStack(alignment: .top, spacing: 12) {
                 // 썸네일 이미지 (없으면 placeholder)
-                Image(systemName: "photo")
-                    .resizable()
+                /*if let imageURL = shop.imageURL, let url = URL(string: imageURL) {
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        Color.gray.opacity(0.2)
+                    }
                     .frame(width: 40, height: 40)
-                    .foregroundColor(.gray)
-                    .background(Color.gray.opacity(0.2))
-                    .clipShape(RoundedRectangle(cornerRadius: 6))
+                    .clipShape(RoundedRectangle(cornerRadius: 6))*/
+               // } else{
+                    Image(systemName: "photo")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                        .foregroundColor(.gray)
+                        .background(Color.gray.opacity(0.2))
+                        .clipShape(RoundedRectangle(cornerRadius: 6))
+                }
 
                 VStack(alignment: .leading, spacing: 4) {
                     Text(shop.name)
@@ -53,8 +65,8 @@ struct SearchResultCell: View {
                     .foregroundColor(.gray)
             }
         }
-        .padding()
+       // .padding()
        // .background(Color(black))
-        .cornerRadius(12)
+       // .cornerRadius(12)
     }
-}
+

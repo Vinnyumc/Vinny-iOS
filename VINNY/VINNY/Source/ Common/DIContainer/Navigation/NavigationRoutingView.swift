@@ -22,6 +22,9 @@ struct NavigationRoutingView: View {
         case .LoginView:
             LoginView(container: container)
                 .environmentObject(container)
+        case .SearchView:
+            SearchView(container: container)
+                .environmentObject(container)
         }
     }
     

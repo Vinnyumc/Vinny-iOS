@@ -9,22 +9,23 @@
 import SwiftUI
 
 struct CategoryItemView: View {
-    let category: Category
+    let categoryItem: CategoryItem
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
-            Image(category.imageName)
+        ZStack {
+            Image(categoryItem.imageName)
                 .resizable()
                 .scaledToFill()
-                .frame(height: 100)
+                .frame(width: 115, height: 115)
                 .clipped()
-                .cornerRadius(10)
 
-            Text("\(category.emoji) \(category.name)")
-                .font(.system(size: 14, weight: .semibold))
+            Text("\(categoryItem.emoji) \(categoryItem.name)")
+                .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(.white)
-                .padding(.top, 8)
-                .padding(.leading, 8)
+                .shadow(radius: 1)
+                .multilineTextAlignment(.center)
         }
+        .frame(width: 115, height: 115)
+        .cornerRadius(8)
     }
 }
