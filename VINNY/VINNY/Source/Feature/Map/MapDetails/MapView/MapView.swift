@@ -25,7 +25,6 @@ struct MapView: View {
     var body: some View {
         ZStack(alignment: .top) {
             VStack(spacing: 0) {
-                
                 ZStack(alignment: .bottom) {
                     if locationManager.currentLocation != nil {
                         UIKitDarkMapView(viewModel: viewModel)
@@ -75,14 +74,21 @@ struct MapView: View {
                     
                     // 마커 눌렀을 떄 효과 (커스텀)
                     if let marker = viewModel.selectedMarker {
-                        // 터치 dismiss용 반투명 백그라운드
-                        Color.black.opacity(0.001)
+                        // 터치 감지는 따로 TapGesture만 담당
+                        Color.clear
                             .ignoresSafeArea()
-                            .onTapGesture {
-                                withAnimation {
-                                    viewModel.selectedMarker = nil
-                                }
-                            }
+                            .contentShape(Rectangle())
+                            .simultaneousGesture(
+                                TapGesture()
+                                    .onEnded {
+                                        if let marker = viewModel.selectedMarker {
+                                            NotificationCenter.default.post(name: .deselectMarkerAndRefresh, object: marker)
+                                        }
+                                        withAnimation {
+                                            viewModel.selectedMarker = nil
+                                        }
+                                    }
+                            )
                         
                         ShopInfoSheet(shopName: marker.title)
                             .frame(maxWidth: .infinity)
@@ -99,6 +105,9 @@ struct MapView: View {
                                     }
                                     .onEnded { value in
                                         if value.translation.height > 120 {
+                                            if let marker = viewModel.selectedMarker {
+                                                NotificationCenter.default.post(name: .deselectMarkerAndRefresh, object: marker)
+                                            }
                                             withAnimation {
                                                 viewModel.selectedMarker = nil
                                                 dragOffset = 0

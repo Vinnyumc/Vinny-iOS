@@ -74,6 +74,7 @@ struct MapTopView: View {
 extension Notification.Name {
     static let moveMapToCurrentLocation = Notification.Name("moveMapToCurrentLocation")
     static let setMapTrackingEnabled = Notification.Name("setMapTrackingEnabled")
+    static let deselectMarkerAndRefresh = Notification.Name("deselectMarkerAndRefresh")
 }
 
 #Preview {
