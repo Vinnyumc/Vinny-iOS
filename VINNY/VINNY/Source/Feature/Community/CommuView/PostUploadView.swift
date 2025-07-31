@@ -14,9 +14,6 @@ struct PostUploadView: View {
     /// 이미지 업로드 관련 상태
     @State private var showPhotosPicker = false // 포토 피커(이미지 선택 창) 표시 여부
     @State private var selectedItems: [PhotosPickerItem] = [] // 선택된 이미지 아이템들
-    @State private var selectedImageCount: Int = 0 // 현재까지 선택된 이미지 개수
-    @State private var postImages: [UIImage] = [] // 실제 업로드할 이미지 배열
-    @State private var currentIndex: Int = 0 // 이미지 페이지 뷰의 현재 인덱스
     
     let columns = [
         GridItem(.flexible(), spacing: 8),
@@ -28,9 +25,7 @@ struct PostUploadView: View {
         "🪖 밀리터리", "🇺🇸 아메카지", "🛹 스트릿", "🏔️ 아웃도어", "👕 캐주얼", "👖 데님", "💼 하이엔드", "🛠️ 워크웨어", "👞 레더", "‍🏃‍♂️ 스포티", "🐴 웨스턴", "👚 Y2K"
     ]
     @State private var selectedStyles: Set<String> = []
-    
     @State private var brandInput: String = "" // 브랜드 태그 입력창
-    
     @State private var shopInput: String = "" // 샵 태그 입력창
     
     var body: some View {
@@ -60,16 +55,16 @@ struct PostUploadView: View {
                 LazyVStack(alignment: .leading, spacing: 0) {
                     // MARK: - 페이지뷰(선택된 이미지들)
                     VStack(spacing: 12) {
-                        TabView(selection: $currentIndex) {
-                            if postImages.isEmpty {
+                        TabView(selection: $viewModel.currentIndex) {
+                            if viewModel.postImages.isEmpty {
                                 Image("emptyBigImage")
                                     .resizable()
                                     .aspectRatio(1, contentMode: .fill)
                                     .frame(maxWidth: .infinity)
                                     .padding(.top, 4)
                             } else {
-                                ForEach(0..<postImages.count, id: \.self) { index in
-                                    Image(uiImage: postImages[index])
+                                ForEach(0..<viewModel.postImages.count, id: \.self) { index in
+                                    Image(uiImage: viewModel.postImages[index])
                                         .resizable()
                                         .aspectRatio(1, contentMode: .fill)
                                         .frame(maxWidth: .infinity)
@@ -83,14 +78,13 @@ struct PostUploadView: View {
                         
                         /// PostCard와 동일
                         HStack(spacing: 4) {
-                            let count = postImages.isEmpty ? 1 : postImages.count
-                            ForEach(0..<count, id: \.self) { index in
+                            ForEach(0..<viewModel.selectedImageCount, id: \.self) { index in
                                 Circle()
-                                    .fill(index == currentIndex ? Color.gray : Color.gray.opacity(0.3))
+                                    .fill(index == viewModel.currentIndex ? Color.gray : Color.gray.opacity(0.3))
                                     .frame(width: 4, height: 4)
                             }
                         }
-                        .animation(.easeInOut, value: currentIndex)
+                        .animation(.easeInOut, value: viewModel.currentIndex)
                         .padding(.top, 8)
                     }
                     
@@ -103,15 +97,15 @@ struct PostUploadView: View {
                             
                             Spacer()
                             
-                            Text("\(selectedImageCount)개/5개")
+                            Text("\(viewModel.selectedImageCount)개/5개")
                                 .font(.suit(.light, size: 14))
                                 .foregroundStyle(Color.contentAssistive)
                         }
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             LazyHStack(spacing: 8) {
-                                ForEach(0..<postImages.count, id: \.self) { index in
-                                    Image(uiImage: postImages[index])
+                                ForEach(0..<viewModel.postImages.count, id: \.self) { index in
+                                    Image(uiImage: viewModel.postImages[index])
                                         .resizable()
                                         .frame(width: 80, height: 80)
                                         .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -133,14 +127,13 @@ struct PostUploadView: View {
                                 )
                                 .onChange(of: selectedItems) { oldItems, newItems in
                                     Task {
-                                        postImages = []
+                                        viewModel.postImages = []
                                         for item in newItems {
                                             if let data = try? await item.loadTransferable(type: Data.self),
                                                let image = UIImage(data: data) {
-                                                postImages.append(image)
+                                                viewModel.postImages.append(image)
                                             }
                                         }
-                                        selectedImageCount = postImages.count
                                     }
                                 }
                             }
