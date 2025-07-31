@@ -8,12 +8,6 @@
 import SwiftUI
 import PhotosUI
 
-struct FileDetails: Identifiable {
-    var id: String { name }
-    let name: String
-    let fileType: UTType
-}
-
 struct PostUploadView: View {
     @StateObject var viewModel = PostUploadViewModel()
     
@@ -35,8 +29,9 @@ struct PostUploadView: View {
     ]
     @State private var selectedStyles: Set<String> = []
     
-    private var brandTags: [String] = ["발렌시아가", "마르지엘라", "폴로"]
-    private var shopTags: [String] = ["샵 이름1", "샵 이름2"]
+    @State private var brandInput: String = "" // 브랜드 태그 입력창
+    
+    @State private var shopInput: String = "" // 샵 태그 입력창
     
     var body: some View {
         VStack(spacing: 0) {
@@ -199,11 +194,19 @@ struct PostUploadView: View {
                     
                     // MARK: - 스타일 선택
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("스타일 선택")
-                            .font(.suit(.bold, size: 18))
-                            .foregroundStyle(Color.contentBase)
-                            .padding(.top, 10)
-                            .padding(.bottom, 6)
+                        HStack(spacing: 12) {
+                            Text("스타일 선택")
+                                .font(.suit(.bold, size: 18))
+                                .foregroundStyle(Color.contentBase)
+
+                            Spacer()
+
+                            Text("\(selectedStyles.count)개/3개")
+                                .font(.suit(.light, size: 14))
+                                .foregroundStyle(Color.contentAssistive)
+                        }
+                        .padding(.top, 10)
+                        .padding(.bottom, 6)
                         
                         LazyVGrid(columns: columns, alignment: .leading, spacing: 8) {
                             ForEach(styles, id: \.self) { style in
@@ -217,7 +220,9 @@ struct PostUploadView: View {
                                             if selectedStyles.contains(style) {
                                                 selectedStyles.remove(style)
                                             } else {
-                                                selectedStyles.insert(style)
+                                                if selectedStyles.count < 3 {
+                                                    selectedStyles.insert(style)
+                                                }
                                             }
                                         }
                                     )
@@ -230,16 +235,39 @@ struct PostUploadView: View {
                     
                     // MARK: - 브랜드 입력
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("브랜드 입력")
-                            .font(.suit(.bold, size: 18))
-                            .foregroundStyle(Color.contentBase)
-                            .padding(.top, 10)
-                            .padding(.bottom, 6)
-                        
-                        TextEditor(text: $viewModel.brand)
-                            .customStyleEditor(placeholder: "태그할 브랜드를 입력해주세요", userInput: $viewModel.brand, maxLength: nil)
+                        HStack(spacing: 12) {
+                            Text("브랜드 입력")
+                                .font(.suit(.bold, size: 18))
+                                .foregroundStyle(Color.contentBase)
+                            
+                            Spacer()
+                            
+                            Text("\(viewModel.brands.count)개/3개")
+                                .font(.suit(.light, size: 14))
+                                .foregroundStyle(Color.contentAssistive)
+                        }
+                        .padding(.top, 10)
+                        .padding(.bottom, 6)
+                            
+                        TextEditor(text: $brandInput)
+                            .customStyleEditor(
+                                placeholder: "태그할 브랜드를 입력해주세요",
+                                userInput: $brandInput,
+                                maxLength: nil
+                            )
                             .frame(height: 48)
                             .padding(.vertical, 8)
+                            .onChange(of: brandInput) { oldValue, newValue in
+                                if newValue.contains("\n") {
+                                    let trimmed = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    if !trimmed.isEmpty,
+                                       !viewModel.brands.contains(trimmed),
+                                       viewModel.brands.count < 3 {
+                                        viewModel.brands.append(trimmed)
+                                    }
+                                    brandInput = ""
+                                }
+                            }
                         
                         Text("태그된 브랜드")
                             .font(.suit(.light, size: 14))
@@ -248,8 +276,10 @@ struct PostUploadView: View {
                             .padding(.bottom, 6)
                         
                         HStack(spacing: 8) {
-                            ForEach(brandTags, id: \.self) { style in
-                                BrandTagComponent(tag: style)
+                            ForEach(viewModel.brands, id: \.self) { tag in
+                                BrandTagComponent(tag: tag) {
+                                    viewModel.brands.removeAll() { $0 == tag }
+                                }
                             }
                         }
                         .padding(.vertical, 10)
@@ -258,16 +288,36 @@ struct PostUploadView: View {
                     
                     // MARK: - 빈티지샵 태그
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("빈티지샵 태그")
-                            .font(.suit(.bold, size: 18))
-                            .foregroundStyle(Color.contentBase)
-                            .padding(.top, 10)
-                            .padding(.bottom, 6)
+                        HStack(spacing: 12) {
+                            Text("빈티지샵 태그")
+                                .font(.suit(.bold, size: 18))
+                                .foregroundStyle(Color.contentBase)
+
+                            Spacer()
+
+                            Text(viewModel.shoptag == nil ? "0개/1개" : "1개/1개")
+                                .font(.suit(.light, size: 14))
+                                .foregroundStyle(Color.contentAssistive)
+                        }
+                        .padding(.top, 10)
+                        .padding(.bottom, 6)
                         
-                        TextEditor(text: $viewModel.shoptag)
-                            .customStyleEditor(placeholder: "태그할 샵 이름을 입력해주세요", userInput: $viewModel.shoptag, maxLength: nil)
+                        TextEditor(text: $shopInput)
+                            .customStyleEditor(
+                                placeholder: "태그할 샵 이름을 입력해주세요",
+                                userInput: $shopInput,
+                                maxLength: nil)
                             .frame(height: 48)
                             .padding(.vertical, 8)
+                            .onChange(of: shopInput) { oldValue, newValue in
+                                if newValue.contains("\n") {
+                                    let trimmed = newValue.trimmingCharacters(in: .whitespacesAndNewlines)
+                                    if !trimmed.isEmpty {
+                                        viewModel.shoptag = trimmed
+                                    }
+                                    shopInput = "" // 초기화
+                                }
+                            }
                         
                         Text("태그된 샵")
                             .font(.suit(.light, size: 14))
@@ -275,12 +325,10 @@ struct PostUploadView: View {
                             .padding(.top, 10)
                             .padding(.bottom, 6)
                         
-                        VStack(spacing: 20) {
-                            ForEach(shopTags, id: \.self) { style in
-                                ShopTagComponent(tag: style)
-                            }
+                        if let tag = viewModel.shoptag {
+                            ShopTagComponent(tag: tag)
+                                .padding(.vertical, 10)
                         }
-                        .padding(.vertical, 10)
                     }
                     .padding(.horizontal, 16)
                 }
@@ -310,14 +358,14 @@ struct PostUploadView: View {
         .background(Color.backFillStatic)
     }
     
-    private func BrandTagComponent(tag: String) -> some View {
+    private func BrandTagComponent(tag: String, onDelete: @escaping () -> Void) -> some View {
         HStack(spacing: 6) {
             Text("\(tag)")
                 .font(.suit(.medium, size: 14))
                 .foregroundStyle(Color.contentAdditive)
             
             Button(action: {
-                print("취소") // 취소 시 액션
+                onDelete() // 취소 시 액션
             }) {
                 Image("close")
                     .resizable()
@@ -348,6 +396,7 @@ struct PostUploadView: View {
             Spacer()
             Button(action: {
                 print("삭제") // 삭제 시 액션
+                viewModel.shoptag = nil
             }) {
                 HStack(spacing: 2) {
                     Image("remove")

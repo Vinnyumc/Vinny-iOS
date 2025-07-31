@@ -11,6 +11,6 @@ final class PostUploadViewModel: ObservableObject {
     @Published var title: String = "" // 제목
     @Published var content: String = "" // 내용
     @Published var styles: [String] = []
-    @Published var brand: String = "" // 브랜드 입력
-    @Published var shoptag: String = "" // 스타일 선택
+    @Published var brands: [String] = [] // 브랜드 입력
+    @Published var shoptag: String? = nil // 스타일 선택
 }
