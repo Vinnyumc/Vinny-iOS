@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct BrandView: View {
+struct BrandResetView: View {
     @EnvironmentObject var container: DIContainer
     init(container: DIContainer){
         
@@ -31,33 +31,12 @@ struct BrandView: View {
             Color.backRootRegular
                 .ignoresSafeArea()
             VStack(spacing: 0) {
-                //상단바
-                ZStack {
-                    HStack {
-                        Button (action: {
-                            container.navigationRouter.pop()                 }) {
-                            Image("arrowBack")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .padding(.leading, 16)
-
-                        }
-                        Spacer()
-                    }
-                    Text("가입하기")
-                        .font(.suit(.regular, size: 18))
-                        .foregroundStyle(Color.contentBase)
-                }
-                .frame(height: 60)
-
-                
                 // 상단 설명
                 VStack(spacing: 2) {
                     Text("좋아하는 브랜드를 최대 5개 골라주세요.")
                         .font(.suit(.bold, size: 20))
                         .foregroundStyle(Color("ContentBase"))
                         .frame(maxWidth: .infinity, alignment: .leading)
-
                     Text("빈티지샵 추천 등 취향을 위해 맞춤형으로 활용됩니다.")
                         .font(.suit(.medium, size: 16))
                         .foregroundStyle(Color("ContentAdditive"))
@@ -95,20 +74,17 @@ struct BrandView: View {
                     .padding(.horizontal, 20)
                     .padding(.vertical, 16)
                 }
-                Spacer()
-                    .frame(height: !selectedCategories.isEmpty ? 100 : 130)
-                    .animation(.easeInOut, value: !selectedCategories.isEmpty)
+                .frame(height: 473)
+                
+                ResetBottomView(
+                    title: "저장하기",
+                    isEnabled: !selectedCategories.isEmpty,
+                    action: {
+                        container.navigationRouter.push(to: .VinnyTabView)
+                    }
+                )
+                .frame(height: 76)
             }
-
-            // 하단 버튼 고정
-            LoginBottomView(
-                title: "다음으로",
-                isEnabled: !selectedCategories.isEmpty,
-                action: {
-                    container.navigationRouter.push(to: .ClothTypeView)
-                },
-                assistiveText: "최소 한 개를 선택해야 다음으로 넘어갈 수 있어요"
-            )
         }
         .navigationBarBackButtonHidden()
     }
@@ -125,6 +101,6 @@ struct BrandView: View {
 
 #Preview {
     let container = DIContainer()
-    BrandView(container: container)
+    BrandResetView(container: container)
         .environmentObject(container)
 }

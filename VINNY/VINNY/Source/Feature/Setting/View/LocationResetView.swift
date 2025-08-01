@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LocationView: View {
+struct LocationResetView: View {
     @EnvironmentObject var container: DIContainer
     init(container: DIContainer){
         
@@ -28,24 +28,6 @@ struct LocationView: View {
                 Color.backRootRegular
                     .ignoresSafeArea()
                 VStack(spacing: 0) {
-                    //상단바
-                    ZStack {
-                        HStack {
-                            Button (action: {
-                                container.navigationRouter.pop()                 }) {
-                                Image("arrowBack")
-                                    .resizable()
-                                    .frame(width: 24, height: 24)
-                                    .padding(.leading, 16)
-
-                            }
-                            Spacer()
-                        }
-                        Text("가입하기")
-                            .font(.suit(.regular, size: 18))
-                            .foregroundStyle(Color.contentBase)
-                    }
-                    .frame(height: 60)
                     
                     VStack(spacing: 2) {
                         Text("마지막이에요! 관심 지역을 선택해주세요")
@@ -61,7 +43,7 @@ struct LocationView: View {
                     .frame(height: 59)
                     .padding(.horizontal, 20)
                     .padding(.vertical, 16)
-                    
+
                     LazyVGrid(columns: columns, spacing: 8) {
                         ForEach(categories, id: \.self) { category in
                             let isSelected = selectedCategories.contains(category)
@@ -83,19 +65,18 @@ struct LocationView: View {
                         }
                     }
                     .padding(.horizontal, 20)
-                    .padding(.vertical, 154.5)
-
-                    LoginBottomView(
-                        title: selectedCategories.isEmpty ? "다음으로" : "완료하기",
+                    .padding(.vertical, 136.5)
+                    
+                    ResetBottomView(
+                        title: "저장하기",
                         isEnabled: !selectedCategories.isEmpty,
                         action: {
                             container.navigationRouter.push(to: .VinnyTabView)
-                        },
-                        assistiveText: "최소 한 개를 선택해야 다음으로 넘어갈 수 있어요"
+                        }
                     )
-                    .frame(height: 104)
-                }
+                    .frame(height: 76)
 
+                }
             }
             .navigationBarBackButtonHidden()
         }

@@ -45,6 +45,17 @@ struct NavigationRoutingView: View {
                 .environmentObject(container)
         case .PostUploadView:
             PostUploadView(container: container)
+        case .SettingView:
+            SettingView(container: container)
+                .environmentObject(container)
+        case .TopsideProfileView:
+            TopsideProfileView(container: container)
+                .environmentObject(container)
+        case .MyProfileView:
+            MyProfileView(container: container)
+                .environmentObject(container)
+        case .TasteResetView:
+            TasteResetView(container: container)
                 .environmentObject(container)
         }
     }

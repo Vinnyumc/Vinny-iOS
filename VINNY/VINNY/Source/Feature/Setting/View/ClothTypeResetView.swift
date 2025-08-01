@@ -1,5 +1,5 @@
 //
-//  CategoryView.swift
+//  ClothView.swift
 //  VINNY
 //
 //  Created by 한태빈 on 7/6/25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CategoryView: View {
+struct ClothTypeResetView: View {
     @EnvironmentObject var container: DIContainer
     init(container: DIContainer){
         
@@ -15,9 +15,9 @@ struct CategoryView: View {
     @State private var selectedCategories: Set<String> = []
     let maxSelectionCount = 3
     let categories = [
-        "🪖 밀리터리", "🇺🇸 아메카지", "🛹 스트릿", "🏔️ 아웃도어", "👕 캐주얼", "👖 데님", "💼 하이엔드", "🛠️ 워크웨어", "👞 레더", "🏃‍♂️ 스포티", "🐴 웨스턴", "👚 Y2K"
+        "아우터", "상의", "하의", "신발", "모자", "악세서리", "잡화", "기타"
     ]
-
+    
     let columns = [
         GridItem(.flexible(), spacing: 8),
         GridItem(.flexible(), spacing: 8)
@@ -28,31 +28,14 @@ struct CategoryView: View {
             Color.backRootRegular
                 .ignoresSafeArea()
             VStack(spacing: 0) {
-                //상단바
-                ZStack {
-                    HStack {
-                        Button (action: {
-                            container.navigationRouter.pop()                 }) {
-                            Image("arrowBack")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .padding(.leading, 16)
-                        }
-                        Spacer()
-                    }
-                    Text("가입하기")
-                        .font(.suit(.regular, size: 18))
-                        .foregroundStyle(Color.contentBase)
-                }
-                .frame(height: 60)
-                                
+
                 VStack(spacing: 2) {
-                    Text("좋아하는 빈티지 취향을 3개까지 골라주세요!")
+                    Text("어떤 옷을 주로 찾으시나요?")
                         .font(.suit(.bold, size: 20))
                         .foregroundStyle(Color("ContentBase"))
                         .frame(maxWidth: .infinity, alignment: .leading)
 
-                    Text("빈티지샵, 피드 추천 등 다양하게 맞춤형으로 활용됩니다.")
+                    Text("최대 3개까지 선택할 수 있어요.")
                         .font(.suit(.medium, size: 16))
                         .foregroundStyle(Color("ContentAdditive"))
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -60,7 +43,7 @@ struct CategoryView: View {
                 .frame(height: 59)
                 .padding(.horizontal, 20)
                 .padding(.vertical, 16)
-
+                
                 LazyVGrid(columns: columns, spacing: 8) {
                     ForEach(categories, id: \.self) { category in
                         let isSelected = selectedCategories.contains(category)
@@ -82,19 +65,18 @@ struct CategoryView: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.vertical, 102.5)
-
-                LoginBottomView(
-                    title: "다음으로",
+                .padding(.vertical, 136.5)
+                
+                ResetBottomView(
+                    title: "저장하기",
                     isEnabled: !selectedCategories.isEmpty,
                     action: {
-                        container.navigationRouter.push(to: .BrandView)
-                    },
-                    assistiveText: "최소 한 개를 선택해야 다음으로 넘어갈 수 있어요"
+                        container.navigationRouter.push(to: .VinnyTabView)
+                    }
                 )
-                .frame(height: 104)
+                .frame(height: 76)
+
             }
-            
         }
         .navigationBarBackButtonHidden()
     }
@@ -110,7 +92,6 @@ struct CategoryView: View {
 
 #Preview {
     let container = DIContainer()
-    CategoryView(container: container)
+    ClothTypeView(container: container)
         .environmentObject(container)
 }
-
