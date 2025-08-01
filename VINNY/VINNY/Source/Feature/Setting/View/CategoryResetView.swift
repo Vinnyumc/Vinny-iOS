@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct CategoryView: View {
+struct CategoryResetView: View {
     @EnvironmentObject var container: DIContainer
     init(container: DIContainer){
         
@@ -28,23 +28,6 @@ struct CategoryView: View {
             Color.backRootRegular
                 .ignoresSafeArea()
             VStack(spacing: 0) {
-                //상단바
-                ZStack {
-                    HStack {
-                        Button (action: {
-                            container.navigationRouter.pop()                 }) {
-                            Image("arrowBack")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .padding(.leading, 16)
-                        }
-                        Spacer()
-                    }
-                    Text("가입하기")
-                        .font(.suit(.regular, size: 18))
-                        .foregroundStyle(Color.contentBase)
-                }
-                .frame(height: 60)
                                 
                 VStack(spacing: 2) {
                     Text("좋아하는 빈티지 취향을 3개까지 골라주세요!")
@@ -82,19 +65,17 @@ struct CategoryView: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.vertical, 102.5)
-
-                LoginBottomView(
-                    title: "다음으로",
+                .padding(.vertical, 84.5)
+                
+                ResetBottomView(
+                    title: "저장하기",
                     isEnabled: !selectedCategories.isEmpty,
                     action: {
-                        container.navigationRouter.push(to: .BrandView)
-                    },
-                    assistiveText: "최소 한 개를 선택해야 다음으로 넘어갈 수 있어요"
+                        container.navigationRouter.push(to: .VinnyTabView)
+                    }
                 )
-                .frame(height: 104)
+                .frame(height: 76)
             }
-            
         }
         .navigationBarBackButtonHidden()
     }
@@ -110,7 +91,7 @@ struct CategoryView: View {
 
 #Preview {
     let container = DIContainer()
-    CategoryView(container: container)
+    CategoryResetView(container: container)
         .environmentObject(container)
 }
 

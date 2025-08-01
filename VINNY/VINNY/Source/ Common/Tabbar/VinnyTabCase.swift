@@ -35,7 +35,7 @@ enum SBTabCase: String, CaseIterable {
     }
 
     /// 탭 아이템에 해당하는 콘텐트 뷰
-    var contentView: some View {
+    func contentView(container: DIContainer) -> some View {
         switch self {
         case .home:
             return AnyView(HomeView())
@@ -44,7 +44,7 @@ enum SBTabCase: String, CaseIterable {
         case .community:
             return AnyView(CommunityView())
         case .myprofile:
-            return AnyView(MyProfileView())
+            return AnyView(MyProfileView(container: container))
         }
     }
 
