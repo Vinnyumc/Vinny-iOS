@@ -15,6 +15,10 @@ enum NavigationDestination: Hashable {
     case CategoryView
     case ClothTypeView
     case LocationView
+    case PostView
+    case HomeView
+    case CommunityView
+    case PostUploadView
     case TasteResetView
     case SettingView
     case TopsideProfileView
@@ -34,6 +38,14 @@ enum NavigationDestination: Hashable {
             return true
         case(.LocationView, .LocationView):
             return true
+        case (.PostView, .PostView):
+            return true
+        case (.HomeView, .HomeView):
+            return true
+        case (.CommunityView, .CommunityView):
+            return true
+        case (.PostUploadView, .PostUploadView):
+            return true 
         case(.TasteResetView, .TasteResetView):
             return true
         case(.SettingView, .SettingView):
@@ -61,6 +73,14 @@ enum NavigationDestination: Hashable {
             hasher.combine("ClothTypeView")
         case .LocationView:
             hasher.combine("LocationView")
+        case .CommunityView:
+            hasher.combine("CommunityView")
+        case .HomeView:
+            hasher.combine("HomeView")
+        case .PostView:
+            hasher.combine("PostView")
+        case .PostUploadView:
+            hasher.combine("PostUploadView")
         case .TasteResetView:
             hasher.combine("TasteResetView")
         case .SettingView:

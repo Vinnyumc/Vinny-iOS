@@ -34,6 +34,17 @@ struct NavigationRoutingView: View {
         case .LocationView:
             LocationView(container: container)
                 .environmentObject(container)
+        case .PostView:
+            PostView(container: container)
+                .environmentObject(container)
+        case .HomeView:
+            HomeView(container: container)
+                .environmentObject(container)
+        case .CommunityView:
+            CommunityView(container: container)
+                .environmentObject(container)
+        case .PostUploadView:
+            PostUploadView(container: container)
         case .SettingView:
             SettingView(container: container)
                 .environmentObject(container)
