@@ -1,14 +1,14 @@
 //
-//  PostUploadView.swift
+//  PostEditView.swift
 //  VINNY
 //
-//  Created by 홍지우 on 7/20/25.
+//  Created by 홍지우 on 7/31/25.
 //
 
 import SwiftUI
 import PhotosUI
 
-struct PostUploadView: View {
+struct PostEditView: View {
     @StateObject var viewModel = PostUploadViewModel()
     
     /// 이미지 업로드 관련 상태
@@ -42,7 +42,7 @@ struct PostUploadView: View {
                     }
                     Spacer()
                 }
-                Text("게시글 업로드")
+                Text("게시글 수정")
                     .font(.suit(.regular, size: 18))
                     .foregroundStyle(Color.contentBase)
             }
@@ -329,9 +329,9 @@ struct PostUploadView: View {
             
             // MARK: - 하단 고정 버튼(업로드)
             Button(action: {
-                print("업로드")
+                print("수정하기")
             }) {
-                Text("업로드")
+                Text("수정하기")
                     .font(.suit(.medium, size: 16))
                     .foregroundStyle(Color.contentInverted)
                     .frame(maxWidth: .infinity)
@@ -412,5 +412,5 @@ struct PostUploadView: View {
 }
 
 #Preview {
-    PostUploadView()
+    PostEditView()
 }
