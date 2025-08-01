@@ -13,14 +13,15 @@ import MapKit
 import Observation
 
 @Observable
-class LocationManager: NSObject {
+class LocationManager: NSObject{
     static let shared = LocationManager()
     
     // MARK: - CLLocationManager
     private let locationManager = CLLocationManager()
     
     // MARK: - Published Properties
-    var currentLocation: CLLocation?
+    var currentLocation: CLLocation? = nil
+    var onLocationUpdate: ((CLLocation?) -> Void)?
     var currentHeading: CLHeading?
    
     var currentSpeed: CLLocationSpeed = 0
@@ -38,9 +39,13 @@ class LocationManager: NSObject {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.headingFilter = kCLHeadingFilterNone
         
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
+        
+//        startUpdatingLocation()
         requestAuthorization()
-        startUpdatingLocation()
         startUpdatingHeading()
+        print("📍 LocationManager 초기화됨")
     }
     
     // MARK: - 권한 요청
