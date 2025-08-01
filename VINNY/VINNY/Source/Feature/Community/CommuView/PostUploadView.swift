@@ -9,6 +9,11 @@ import SwiftUI
 import PhotosUI
 
 struct PostUploadView: View {
+    @EnvironmentObject var container: DIContainer
+        
+    init(container: DIContainer) {
+        
+    }
     @StateObject var viewModel = PostUploadViewModel()
     
     /// 이미지 업로드 관련 상태
@@ -349,6 +354,7 @@ struct PostUploadView: View {
             )
         }
         .background(Color.backFillStatic)
+        .navigationBarBackButtonHidden()
     }
     
     private func BrandTagComponent(tag: String, onDelete: @escaping () -> Void) -> some View {
@@ -412,5 +418,7 @@ struct PostUploadView: View {
 }
 
 #Preview {
-    PostUploadView()
+    let container = DIContainer()
+    PostUploadView(container: container)
+        .environmentObject(container)
 }

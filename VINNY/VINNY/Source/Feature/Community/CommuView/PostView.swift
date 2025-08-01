@@ -8,8 +8,14 @@
 import SwiftUI
 
 struct PostView: View {
-    private var postImages: [String] = ["post2", "post2", "post"]
+    @EnvironmentObject var container: DIContainer
+        
+    init(container: DIContainer) {
+        
+    }
+    
     @State private var currentIndex: Int = 0
+    private var postImages: [String] = ["post2", "post2", "post2"]
     
     private var shopName: String = "스테이블 그라운드 합정"
     private var tags: [String] = ["#빈티지", "#스트릿", "#레더"]
@@ -191,9 +197,6 @@ struct PostView: View {
                 PostDeleteView(isShowing: $isShowingDeleteDialog)
             }
         }
+        .navigationBarBackButtonHidden()
     }
-}
-
-#Preview {
-    PostView()
 }

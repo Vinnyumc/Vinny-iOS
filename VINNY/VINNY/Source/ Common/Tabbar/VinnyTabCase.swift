@@ -44,14 +44,14 @@ enum SBTabCase: String, CaseIterable {
     }()
     
     /// 탭에 해당하는 뷰
-    var contentView: some View {
+    func contentView(container: DIContainer) -> some View{
         switch self {
         case .home:
-            return AnyView(HomeView())
+            return AnyView(HomeView(container: container))
         case .map:
             return AnyView(MapView(viewModel: SBTabCase.sharedMapViewModel))
         case .community:
-            return AnyView(CommunityView())
+            return AnyView(CommunityView(container: container))
         case .myprofile:
             return AnyView(MyProfileView())
         }

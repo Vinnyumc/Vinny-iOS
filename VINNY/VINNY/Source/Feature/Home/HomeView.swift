@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var container: DIContainer
+        
+    init(container: DIContainer) {
+            
+    }
 
     @State var selectedFilter: Int = 0
     let filters: [String] = ["추천", "랭킹", "인기"]
@@ -128,7 +133,7 @@ struct HomeView: View {
                 RankingView()
                     .padding(.horizontal, 16)
             } else {
-                PopularView()
+                PopularView(container: container)
                     .padding(.horizontal, 16)
             }
         }
@@ -136,5 +141,7 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    let container = DIContainer()
+    HomeView(container: container)
+        .environmentObject(container)
 }

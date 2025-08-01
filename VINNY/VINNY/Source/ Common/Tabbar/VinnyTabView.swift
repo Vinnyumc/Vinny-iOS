@@ -19,8 +19,8 @@ struct VinnyTabView: View {
 
     var body: some View {
         ZStack {
-            selectedTab.contentView
-
+            selectedTab.contentView(container: container)
+            
             VStack {
                 Spacer()
 
