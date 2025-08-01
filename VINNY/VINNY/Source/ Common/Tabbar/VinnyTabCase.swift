@@ -33,8 +33,7 @@ enum SBTabCase: String, CaseIterable {
         case .myprofile: return "프로필"
         }
     }
-
-    /// 공유 MapViewModel (지도 뷰 전용)
+    
     private static var sharedMapViewModel: MapViewModel = {
         let vm = MapViewModel()
         if let location = LocationManager.shared.currentLocation {
@@ -42,9 +41,9 @@ enum SBTabCase: String, CaseIterable {
         }
         return vm
     }()
-    
-    /// 탭에 해당하는 뷰
-    var contentView: some View {
+
+    /// 탭 아이템에 해당하는 콘텐트 뷰
+    func contentView(container: DIContainer) -> some View {
         switch self {
         case .home:
             return AnyView(HomeView())
@@ -53,7 +52,7 @@ enum SBTabCase: String, CaseIterable {
         case .community:
             return AnyView(CommunityView())
         case .myprofile:
-            return AnyView(MyProfileView())
+            return AnyView(MyProfileView(container: container))
         }
     }
 }

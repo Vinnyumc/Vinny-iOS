@@ -1,25 +1,19 @@
 //
-//  LoginBottomView.swift
+//  ResetBottomView.swift
 //  VINNY
 //
-//  Created by 한태빈 on 7/17/25.
+//  Created by 한태빈 on 7/31/25.
 //
 
 import SwiftUI
 
-struct LoginBottomView: View {
+struct ResetBottomView: View {
     let title: String
     let isEnabled: Bool
     let action: () -> Void
-    let assistiveText: String
 
     var body: some View {
         VStack{
-            if !isEnabled {
-                Text(assistiveText)
-                    .font(.suit(.regular, size: 12))
-                    .foregroundStyle(Color("ContentAssistive"))
-            }
 
             Button(action: action) {
                 Text(title)
@@ -33,7 +27,6 @@ struct LoginBottomView: View {
             .padding(.horizontal, 16)
             .disabled(!isEnabled)
         }
-        .padding(.bottom, 20)
         .background(Color("BackFillRegular"))
     }
 }
