@@ -25,7 +25,10 @@ public struct API {
     static let profileURL = "\(baseURL)/profile/"
     //map 관련 API
     static let mapURL = "\(baseURL)/map/"
-
+    
+    static let authURL = "\(baseURL)auth"
+    
+    
 
     
 }

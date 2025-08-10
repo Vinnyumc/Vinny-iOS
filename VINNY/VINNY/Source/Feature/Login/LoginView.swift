@@ -2,9 +2,10 @@ import SwiftUI
 
 struct LoginView: View {
     @EnvironmentObject var container: DIContainer
+    @StateObject private var viewModel: LoginViewModel
 
     init(container: DIContainer) {
-        
+        _viewModel = StateObject(wrappedValue: LoginViewModel(container: container))
     }
 
     var body: some View {
