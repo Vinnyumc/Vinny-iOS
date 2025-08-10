@@ -11,8 +11,8 @@ protocol UseCaseProtocol {
     var profileUseCase: DefaultNetworkManager<ProfileAPITarget> { get set }
     
     var postUseCase: DefaultNetworkManager<PostsAPITarget> { get set }
-    //var reviewUseCase: DefaultNetworkManager<ReviewAPITarget> { get set }
-    
+
+    var mapUseCase: DefaultNetworkManager<MapAPITarget> { get set }
 }
 
 class UseCaseProvider: UseCaseProtocol{
@@ -26,6 +26,8 @@ class UseCaseProvider: UseCaseProtocol{
     
     var postUseCase: DefaultNetworkManager<PostsAPITarget>
     
+    var mapUseCase: DefaultNetworkManager<MapAPITarget>
+
     init() {
 //        courseUseCase = DefaultNetworkManager<CoursesAPITarget>(stub: true) //stub: true 적으면 더미 데이터로 가져옴
         userUseCase = DefaultNetworkManager<UsersAPITarget>()
@@ -37,6 +39,9 @@ class UseCaseProvider: UseCaseProtocol{
         profileUseCase = DefaultNetworkManager<ProfileAPITarget>()
         
         postUseCase = DefaultNetworkManager<PostsAPITarget>()
+        
+        mapUseCase = DefaultNetworkManager<MapAPITarget>()
+
     }
 }
 

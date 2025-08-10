@@ -48,7 +48,7 @@ struct LocationView: View {
                     .frame(height: 60)
                     
                     VStack(spacing: 2) {
-                        Text("마지막이에요! 관심 지역을 선택해주세요")
+                        Text("관심 지역을 선택해주세요")
                             .font(.suit(.bold, size: 20))
                             .foregroundStyle(Color("ContentBase"))
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -89,7 +89,7 @@ struct LocationView: View {
                         title: selectedCategories.isEmpty ? "다음으로" : "완료하기",
                         isEnabled: !selectedCategories.isEmpty,
                         action: {
-                            container.navigationRouter.push(to: .VinnyTabView)
+                            container.navigationRouter.push(to: .LastSignUpView)
                         },
                         assistiveText: "최소 한 개를 선택해야 다음으로 넘어갈 수 있어요"
                     )

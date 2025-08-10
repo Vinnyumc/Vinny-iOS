@@ -66,6 +66,9 @@ struct NavigationRoutingView: View {
         case .TasteResetView:
             TasteResetView(container: container)
                 .environmentObject(container)
+        case .LastSignUpView:
+            LastSignUpView(container: container)
+                .environmentObject(container)
         }
     }
     
