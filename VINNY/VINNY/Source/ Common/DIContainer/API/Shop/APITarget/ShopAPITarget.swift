@@ -24,46 +24,8 @@ extension ShopAPITarget: TargetType {
     var path: String {
         switch self {
         case .getDetail(let id):
-            return "/api/shop/\(id)"           // Swagger: GET /api/shop/{shopId}
-        case .ranking:
-            return "/api/shops/ranking"
-        case .forYou:
-            return "/api/home/shops/for-you"
-        case .shopLove(let shopId):
-            return "/api/shops/\(shopId)/favorite"
-        case .shopUnLove(let shopId):
-            return "/api/shops/\(shopId)/favorite"
-        }
-    }
-    var method: Moya.Method {
-        switch self {
-        case .getDetail:
-            return .get
-        case .ranking:
-            return .get
-        case .forYou:
-            return .get
-        case .shopLove:
-            return .post
-        case .shopUnLove:
-            return .patch
-        }
-    }
-    var task: Task {
-        switch self {
-        case .getDetail:
-            return .requestPlain
-        case let .ranking(page, size, region, style):
-            var params: [String: Any] = ["page": page, "size": size]
-            if let region, !region.isEmpty { params["region"] = region.joined(separator: ",") }
-            if let style, !style.isEmpty { params["style"] = style.joined(separator: ",") }
-            return .requestParameters(parameters: params, encoding: URLEncoding.default)
-        case .forYou(let limit):
-            return .requestParameters(parameters: ["limit": limit], encoding: URLEncoding.queryString)
-        case .shopLove:
-            return .requestPlain
-        case .shopUnLove:
-            return .requestPlain
+            return "/api/shop/\(id)"// Swagger: GET /api/shop/{shopId}
+            
         }
     }
     var headers: [String : String]? {

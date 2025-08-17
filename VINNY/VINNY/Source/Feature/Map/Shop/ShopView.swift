@@ -236,8 +236,20 @@ struct ShopView: View {
         do {
             let d = try await ShopAPITarget.getDetail(shopId: shopId)
             detail = d
+        } catch let DecodingError.typeMismatch(type, context) {
+            let path = context.codingPath.map { $0.stringValue }.joined(separator: ".")
+            errorMessage = "TypeMismatch(\(type)) at path: \(path) — \(context.debugDescription)"
+        } catch let DecodingError.keyNotFound(key, context) {
+            let path = context.codingPath.map { $0.stringValue }.joined(separator: ".")
+            errorMessage = "KeyNotFound(\(key.stringValue)) at path: \(path) — \(context.debugDescription)"
+        } catch let DecodingError.valueNotFound(type, context) {
+            let path = context.codingPath.map { $0.stringValue }.joined(separator: ".")
+            errorMessage = "ValueNotFound(\(type)) at path: \(path) — \(context.debugDescription)"
+        } catch let DecodingError.dataCorrupted(context) {
+            let path = context.codingPath.map { $0.stringValue }.joined(separator: ".")
+            errorMessage = "DataCorrupted at path: \(path) — \(context.debugDescription)"
         } catch {
-            errorMessage = error.localizedDescription
+            errorMessage = String(describing: error)
         }
     }
 }
