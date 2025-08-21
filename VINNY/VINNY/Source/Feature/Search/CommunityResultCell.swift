@@ -12,14 +12,13 @@ struct CommunityResultCell: View {
         // 부모(SearchResultView)에 ScrollView가 있으므로 여기선 LazyVGrid만
         LazyVGrid(columns: columns, spacing: 1) {
             ForEach(posts, id: \.id) { post in
-                ForEach(post.imageUrls ?? [], id: \.self) { url in
-                    Button {
-                        handleTap(post.id)
-                    } label: {
-                        PostImageTile(urlString: url)
-                    }
-                    .buttonStyle(.plain)
+                Button {
+                    handleTap(post.id)
+                } label: {
+                    // 대표 이미지: 첫 번째 URL만 사용, 없으면 빈 문자열로 placeholder 표시
+                    PostImageTile(urlString: post.imageUrls?.first ?? "")
                 }
+                .buttonStyle(.plain)
             }
         }
         .padding(.top, 1)
@@ -83,3 +82,4 @@ private struct PostImageTile: View {
     }
 }
 //굳
+//끝제발
