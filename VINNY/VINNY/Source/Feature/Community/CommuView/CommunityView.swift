@@ -109,20 +109,17 @@ struct CommunityView: View {
                             PostCardView(item: item)
                                 .environmentObject(container)
                                 .padding(.horizontal, 16)
-                                .containerRelativeFrame(.vertical)
+                                .padding(.bottom, 10)
                         }
                     }
                     
                     Spacer()
                         .frame(height: 56)
                 }
-                
+                .scrollTargetLayout()
                 Spacer().frame(height: 70)
             }
-//            .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
-            .scrollIndicators(.hidden)
-            .scrollTargetLayout()                   // 스냅 기준을 아이템 단위로
-            .scrollTargetBehavior(.paging)
+            .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
         }
         .background(Color.backFillStatic)
         .navigationBarBackButtonHidden()
