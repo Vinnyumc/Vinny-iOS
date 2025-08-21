@@ -17,6 +17,7 @@ struct ShopReview: Decodable, Identifiable, Hashable {
     let userName : String
     let elapsedTime : String
     let imageUrls : [String]
+    let myPost: Bool
 }
 
 

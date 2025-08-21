@@ -87,7 +87,7 @@ struct SearchView: View {
                 .foregroundStyle(.white)
                 .padding(.top, 18)
 
-            LazyVGrid(columns: columns, spacing: 12) {
+            LazyVGrid(columns: columns, spacing: 8) {
                 ForEach(CategoryItem.sampleList) { category in
                     Button {
                         let kw = category.name
