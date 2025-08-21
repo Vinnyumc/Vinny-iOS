@@ -40,8 +40,8 @@ struct PostItemDTO: Decodable, Hashable {
     let likesCount: Int
     let bookmarkedByMe: Bool
     let shop: PostShopMiniDTO?
-    let style: PostStyleMiniDTO?
-    let brand: PostBrandMiniDTO?
+    let styles: [PostStyleMiniDTO]
+    let brands: [PostBrandMiniDTO]
     let likedByMe: Bool
 }
 

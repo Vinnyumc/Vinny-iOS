@@ -109,8 +109,7 @@ struct CommunityView: View {
                         }
                     }
                     
-                    Spacer()
-                        .frame(height: 56)
+                    Spacer().frame(height: 70)
                 }
                 .scrollTargetLayout()
             }

@@ -107,6 +107,8 @@ struct RankingView: View {
                     }
                 }
             }
+            
+            Spacer().frame(height: 70)
         }
         .onAppear {
             fetch()

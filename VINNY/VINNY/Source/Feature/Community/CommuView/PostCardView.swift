@@ -81,33 +81,35 @@ struct PostCardView: View {
                 }
 
                 // tags row (shop/style/brand)
-                HStack(spacing: 6) {
-                    if let shop = item.shop {
-                        HStack(spacing: 4) {
-                            Image("mapPinFill")
-                                .resizable()
-                                .frame(width: 16, height: 16)
-                            Text(shop.shopName)
-                                .font(.suit(.medium, size: 12))
-                                .foregroundStyle(Color.contentAdditive)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    LazyHStack(spacing: 6) {
+                        if let shop = item.shop {
+                            HStack(spacing: 4) {
+                                Image("mapPinFill")
+                                    .resizable()
+                                    .frame(width: 16, height: 16)
+                                Text(shop.shopName)
+                                    .font(.suit(.medium, size: 12))
+                                    .foregroundStyle(Color.contentAdditive)
+                            }
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(
+                                RoundedRectangle(cornerRadius: 4)
+                                    .foregroundStyle(Color.backFillRegular)
+                            )
                         }
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(
-                            RoundedRectangle(cornerRadius: 4)
-                                .foregroundStyle(Color.backFillRegular)
-                        )
-                    }
 
-                    if let style = item.style {
-                        TagComponent(tag: "#\(style.styleName)")
+                        ForEach(item.styles, id: \.self) { st in
+                            TagComponent(tag: "\(st.styleName)")
+                        }
+                        ForEach(item.brands, id: \.self) { br in
+                            TagComponent(tag: "# \(br.brandName)")
+                        }
                     }
-                    if let brand = item.brand {
-                        TagComponent(tag: "#\(brand.brandName)")
-                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
                 }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
 
                 // meta + title + content
                 VStack(alignment: .leading, spacing: 2) {

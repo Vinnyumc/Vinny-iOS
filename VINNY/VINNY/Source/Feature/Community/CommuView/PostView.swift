@@ -146,6 +146,7 @@ struct PostView: View {
                 .frame(height: 440)
                 .padding(.vertical, 4)
                 .tabViewStyle(.page(indexDisplayMode: .never))
+                
                 HStack(spacing: 4) {
                     ForEach(0..<(max(d.images.count, 1)), id: \.self) { index in
                         Circle()
@@ -160,32 +161,34 @@ struct PostView: View {
     }
 
     private func tagsSection(d: PostDetailDTO) -> some View {
-        HStack(spacing: 6) {
-            if let shop = d.shop {
-                HStack(spacing: 4) {
-                    Image("mapPinFill")
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                    Text(shop.shopName)
-                        .font(.suit(.medium, size: 12))
-                        .foregroundStyle(Color.contentAdditive)
+        ScrollView(.horizontal, showsIndicators: false) {
+            LazyHStack(spacing: 6) {
+                if let shop = d.shop {
+                    HStack(spacing: 4) {
+                        Image("mapPinFill")
+                            .resizable()
+                            .frame(width: 16, height: 16)
+                        Text(shop.shopName)
+                            .font(.suit(.medium, size: 12))
+                            .foregroundStyle(Color.contentAdditive)
+                    }
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(
+                        RoundedRectangle(cornerRadius: 4)
+                            .foregroundStyle(Color.backFillRegular)
+                    )
                 }
-                .padding(.horizontal, 6)
-                .padding(.vertical, 2)
-                .background(
-                    RoundedRectangle(cornerRadius: 4)
-                        .foregroundStyle(Color.backFillRegular)
-                )
+                ForEach(d.styles, id: \.self) { st in
+                    TagComponent(tag: "\(st.styleName)")
+                }
+                ForEach(d.brands, id: \.self) { br in
+                    TagComponent(tag: "# \(br.brandName)")
+                }
             }
-            ForEach(d.styles, id: \.self) { st in
-                TagComponent(tag: "#\(st.styleName)")
-            }
-            ForEach(d.brands, id: \.self) { br in
-                TagComponent(tag: "#\(br.brandName)")
-            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
         }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 10)
     }
 
     private func contentSection(d: PostDetailDTO) -> some View {

@@ -42,6 +42,8 @@ struct RecommendView: View {
                         .padding(.vertical, 16)
                 }
             }
+            
+            Spacer().frame(height: 70)
         }
         .task {
             do {

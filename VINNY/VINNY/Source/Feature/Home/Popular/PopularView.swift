@@ -46,6 +46,8 @@ struct PopularView: View {
                         .padding(.vertical, 10)
                 }
             }
+            
+            Spacer().frame(height: 70)
         }
         .onAppear {
             Task {
