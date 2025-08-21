@@ -66,7 +66,10 @@ struct PopularView: View {
         errorMessage = nil
         defer { isLoading = false }
         do {
-            let result: PostListResultDTO = try await PostAPITarget.getPosts(page: page, size: size)
+            #if DEBUG
+            print("[Popular] fetchPopular reset=\(reset) page=\(page) size=\(size)")
+            #endif
+            let result: PostListResultDTO = try await PostAPITarget.getPopularPosts(page: page, size: size)
             if reset {
                 posts = result.posts
             } else {
