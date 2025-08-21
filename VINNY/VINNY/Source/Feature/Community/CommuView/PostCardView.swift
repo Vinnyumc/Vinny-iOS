@@ -18,67 +18,101 @@ struct PostCardView: View {
     @State private var isLiked: Bool = false
     @State private var isBookmarked: Bool = false
     @State private var likeCount: Int = 0
+    
+    private var headerShape: UnevenRoundedRectangle {
+        UnevenRoundedRectangle(
+            topLeadingRadius: 16,
+            bottomLeadingRadius: 0,
+            bottomTrailingRadius: 0,
+            topTrailingRadius: 16,
+            style: .continuous
+        )
+    }
+    
+    
+    private var imageTopShape: UnevenRoundedRectangle {
+        UnevenRoundedRectangle(
+            topLeadingRadius: 16,
+            bottomLeadingRadius: 0,
+            bottomTrailingRadius: 0,
+            topTrailingRadius: 16,
+            style: .continuous
+        )
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
-                // Header: author
-                HStack(spacing: 8) {
-                    URLImageView(item.author.profileImageUrl ?? "")
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(item.author.nickname)
-                            .font(.suit(.medium, size: 16))
-                            .foregroundStyle(Color.contentBase)
-                        Text(item.author.comment ?? "")
-                            .font(.suit(.light, size: 12))
-                            .foregroundStyle(Color.contentAdditive)
-                    }
-                    .padding(.horizontal, 4)
-                    Spacer()
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.horizontal, 16)
-                .padding(.vertical, 10)
-
-                // Images: page style
-                VStack(spacing: 0) {
-                    if item.images.isEmpty {
-                        Image("emptyBigImage")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
+                ZStack(alignment: .top) {
+                    // Images: page style
+                    VStack(spacing: 0) {
+                        if item.images.isEmpty {
+                            Image("emptyBigImage")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .clipped()
+                        } else {
+                            TabView(selection: $currentIndex) {
+                                ForEach(Array(item.images.enumerated()), id: \.offset) { pair in
+                                    let urlString = pair.element
+                                    URLImageView(urlString)
+                                        .scaledToFill()
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                        .clipped()
+                                        .tag(pair.offset)
+                                }
+                            }
                             .frame(maxWidth: .infinity)
-                            .frame(height: 292)
-                            .clipped()
-                            .padding(.vertical, 4)
-                    } else {
-                        TabView(selection: $currentIndex) {
-                            ForEach(Array(item.images.enumerated()), id: \.offset) { pair in
-                                let urlString = pair.element
-                                URLImageView(urlString)
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 292)
-                                    .clipped()
-                                    .tag(pair.offset)
+                            .aspectRatio(contentMode: .fit)
+                            .tabViewStyle(.page(indexDisplayMode: .never))
+                            .clipShape(imageTopShape)
+                            
+                            // custom indicators
+                            HStack(spacing: 4) {
+                                ForEach(0 ..< max(item.images.count, 1), id: \.self) { index in
+                                    Circle()
+                                        .fill(index == currentIndex ? Color.gray : Color.gray.opacity(0.3))
+                                        .frame(width: 4, height: 4)
+                                }
                             }
+                            .animation(.easeInOut, value: currentIndex)
+                            .padding(.top, 8)
                         }
-                        .frame(height: 292)
-                        .padding(.vertical, 4)
-                        .tabViewStyle(.page(indexDisplayMode: .never))
-
-                        // custom indicators
-                        HStack(spacing: 4) {
-                            ForEach(0 ..< max(item.images.count, 1), id: \.self) { index in
-                                Circle()
-                                    .fill(index == currentIndex ? Color.gray : Color.gray.opacity(0.3))
-                                    .frame(width: 4, height: 4)
-                            }
+                    }
+                    
+                    // Header: author
+                    HStack(spacing: 8) {
+                        URLImageView(item.author.profileImageUrl ?? "")
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(item.author.nickname)
+                                .font(.suit(.medium, size: 16))
+                                .foregroundStyle(Color.contentBase)
+                            Text(item.author.comment ?? "")
+                                .font(.suit(.light, size: 12))
+                                .foregroundStyle(Color.contentAdditive)
                         }
-                        .animation(.easeInOut, value: currentIndex)
-                        .padding(.top, 8)
+                        .padding(.horizontal, 4)
+                        Spacer()
+                        
+                        Image("chevron.right")
+                            .resizable()
+                            .frame(width: 16, height: 16)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background{
+                        Rectangle()
+                            .fill(.regularMaterial)
+                            .blendMode(.multiply)
+                        Rectangle()
+                            .fill(Color.backFillStatic.opacity(0.82))
                     }
                 }
+                .clipShape(imageTopShape)
 
                 // tags row (shop/style/brand)
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -183,7 +217,6 @@ struct PostCardView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 8)
         }
-        .padding(.vertical, 4)
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color.backFillRegular)
