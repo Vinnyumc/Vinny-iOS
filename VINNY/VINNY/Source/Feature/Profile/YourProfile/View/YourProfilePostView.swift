@@ -17,34 +17,37 @@ struct YourProfilePostView: View {
                         Button {
                             container.navigationRouter.push(to: .PostView(id: post.postId))
                         } label: {
-                        if let imageUrl = post.imageUrl,
-                           let url = URL(string: imageUrl) {
-                            KFImage(url)
-                                .placeholder {
+                            GeometryReader { geo in
+                                if let imageUrl = post.imageUrl,
+                                   let url = URL(string: imageUrl) {
+                                    KFImage(url)
+                                        .placeholder {
+                                            ZStack {
+                                                Rectangle()
+                                                    .foregroundStyle(.gray.opacity(0.2))
+                                                ProgressView()
+                                            }
+                                        }
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: geo.size.width, height: geo.size.width)
+                                        .clipped()
+                                } else {
                                     ZStack {
                                         Rectangle()
-                                            .foregroundStyle(.gray.opacity(0.2))
-                                        ProgressView()
+                                            .fill(Color.gray.opacity(0.1))
+                                            .frame(width: geo.size.width, height: geo.size.width)
+
+                                        Image("noneProfile")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: geo.size.width * 0.5)
                                     }
                                 }
-                                .resizable()
-                                .aspectRatio(1, contentMode: .fit)
-                                .clipped()
-                        } else {
-                            // imageUrl이 nil인 경우 대체 뷰
-                            ZStack {
-                                Rectangle()
-                                    .fill(Color.gray.opacity(0.1))
-                                    .aspectRatio(1, contentMode: .fit)
-                                
-                                Image("noneProfile")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
                             }
+                            .aspectRatio(1, contentMode: .fit)
                         }
-                    }
                         .buttonStyle(.plain)
-
                     }
                 }
                 .padding(.top, 1)
