@@ -45,6 +45,13 @@ struct PostItemDTO: Decodable, Hashable {
     let likedByMe: Bool
 }
 
+// MARK: - GET /api/post/popular (Popular list)
+// 서버 응답 스키마가 /api/post 와 동일하므로 기존 리스트 DTO를 그대로 재사용합니다.
+// 가독성을 위해 typealias 를 제공해 둡니다.
+typealias PopularPostListResponseDTO = PostListResponseDTO
+typealias PopularPostListResultDTO = PostListResultDTO
+typealias PopularPostItemDTO = PostItemDTO
+
 struct PostAuthorDTO: Decodable, Hashable {
     let userId: Int
     let nickname: String

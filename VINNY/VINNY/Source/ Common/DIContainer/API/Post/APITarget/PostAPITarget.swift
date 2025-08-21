@@ -18,6 +18,7 @@ enum PostAPITarget {
     case bookmarkPost(postId: Int)
     case unbookmarkPost(postId: Int)
     case unlikePost(postId: Int)
+    case getPopularPosts(page: Int, size: Int)
 }
 
 extension PostAPITarget: TargetType {
@@ -42,12 +43,14 @@ extension PostAPITarget: TargetType {
             return "/api/post/\(postId)/bookmarks"
         case .unlikePost(let postId):
             return "/api/post/\(postId)/likes"
+        case .getPopularPosts:
+            return "/api/post/popular"
         }
     }
 
     var method: Moya.Method {
         switch self {
-        case .getPosts, .getPostDetail:
+        case .getPosts, .getPostDetail, .getPopularPosts:
             return .get
         case .createPost:
             return .post
@@ -69,6 +72,11 @@ extension PostAPITarget: TargetType {
     var task: Task {
         switch self {
         case let .getPosts(page, size):
+            return .requestParameters(
+                parameters: ["page": page, "size": size],
+                encoding: URLEncoding.queryString
+            )
+        case let .getPopularPosts(page, size):
             return .requestParameters(
                 parameters: ["page": page, "size": size],
                 encoding: URLEncoding.queryString
@@ -168,6 +176,15 @@ private extension MoyaProvider {
 extension PostAPITarget {
     static func getPosts(page: Int = 0, size: Int = 10) async throws -> PostListResultDTO {
         let res = try await postProvider.asyncRequest(.getPosts(page: page, size: size))
+        let decoded = try JSONDecoder().decode(PostListResponseDTO.self, from: res.data)
+        return decoded.result
+    }
+    
+    static func getPopularPosts(page: Int = 0, size: Int = 10) async throws -> PostListResultDTO {
+        #if DEBUG
+        print("[PostAPI] getPopularPosts — page: \(page), size: \(size)")
+        #endif
+        let res = try await postProvider.asyncRequest(.getPopularPosts(page: page, size: size))
         let decoded = try JSONDecoder().decode(PostListResponseDTO.self, from: res.data)
         return decoded.result
     }
