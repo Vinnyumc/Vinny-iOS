@@ -19,20 +19,39 @@ struct CommunityView: View {
     @MainActor
     private func fetchPosts(reset: Bool) async {
         if reset { page = 0 }
+        if isLoading { return }
         isLoading = true
         errorMessage = nil
         defer { isLoading = false }
         do {
             let result: PostListResultDTO = try await PostAPITarget.getPosts(page: page, size: size)
+            let newPosts = result.posts
+
             if reset {
-                posts = result.posts
+                posts = newPosts
             } else {
-                posts += result.posts
+                // Append while de-duplicating by postId
+                var seen = Set(posts.map { $0.postId })
+                let filtered = newPosts.filter { seen.insert($0.postId).inserted }
+                posts += filtered
             }
-            // 다음 페이지 로딩이 필요하면 아래 주석 해제
-            // page += 1
+
+            // Update paging info from server response
+            let info = result.pageInfo
+            // Prepare next page index and whether there is a next page
+            hasNext = (info.page + 1) < info.totalPages
+            page = info.page + 1
+            // NOTE: If your backend sometimes returns totalPages=0 for empty, keep hasNext false implicitly.
         } catch {
             errorMessage = error.localizedDescription
+        }
+    }
+
+    @MainActor
+    private func loadMoreIfNeeded(current item: PostItemDTO) async {
+        guard hasNext, !isLoading else { return }
+        if let last = posts.last, last.postId == item.postId {
+            await fetchPosts(reset: false)
         }
     }
     
@@ -41,6 +60,7 @@ struct CommunityView: View {
     @State private var errorMessage: String?
     @State private var page: Int = 0
     @State private var size: Int = 10
+    @State private var hasNext: Bool = true
     
     var body: some View {
         
@@ -110,6 +130,14 @@ struct CommunityView: View {
                                 .environmentObject(container)
                                 .padding(.horizontal, 16)
                                 .padding(.bottom, 10)
+                                .onAppear {
+                                    Task { await loadMoreIfNeeded(current: item) }
+                                }
+                        }
+                        
+                        if isLoading && !posts.isEmpty {
+                            ProgressView()
+                                .padding(.vertical, 16)
                         }
                     }
                     
@@ -133,4 +161,3 @@ struct CommunityView: View {
     CommunityView(container: container)
         .environmentObject(container)
 }
-
