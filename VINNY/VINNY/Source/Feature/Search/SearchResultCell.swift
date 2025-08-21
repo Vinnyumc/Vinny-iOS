@@ -13,6 +13,26 @@ import SwiftUI
 struct SearchResultCell: View {
     @EnvironmentObject var container: DIContainer
     let shops: Shops // 외부에서 주입받는 샵 데이터
+
+    // 샵 썸네일 URL 추출 (logoImage / imageUrl / imageUrls[0] 순서)
+    private var thumbnailURL: URL? {
+        let mirror = Mirror(reflecting: shops)
+        // 단일 문자열 필드 우선
+        if let logo = mirror.children.first(where: { $0.label == "logoImage" })?.value as? String,
+           logo.hasPrefix("http") {
+            return URL(string: logo)
+        }
+        if let single = mirror.children.first(where: { $0.label == "imageUrl" })?.value as? String,
+           single.hasPrefix("http") {
+            return URL(string: single)
+        }
+        // 배열 필드의 첫 번째
+        if let list = mirror.children.first(where: { $0.label == "imageUrls" })?.value as? [String],
+           let first = list.first, first.hasPrefix("http") {
+            return URL(string: first)
+        }
+        return nil
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) { // 셀 전체 구성 수직 스택
@@ -20,12 +40,15 @@ struct SearchResultCell: View {
                 
                 // 상단 이름 + 주소 + > 아이콘 줄
                 HStack(alignment: .center, spacing: 12) {
-                    // 프로필 이미지
-                    Image("example_profile") // 실제 이미지 에셋명으로 교체
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                        .padding(.trailing, 12)
+                    // 프로필 이미지 (서버 URL 적용, 실패 시 플레이스홀더)
+                    AsyncImage(url: thumbnailURL) { image in
+                        image.resizable()
+                    } placeholder: {
+                        Image("emptyImage").resizable()
+                    }
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+                    .padding(.trailing, 12)
                     
                     // 상호명 및 주소
                     VStack(alignment: .leading, spacing: 4) {
