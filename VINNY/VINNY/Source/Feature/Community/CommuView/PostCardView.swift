@@ -19,17 +19,6 @@ struct PostCardView: View {
     @State private var isBookmarked: Bool = false
     @State private var likeCount: Int = 0
     
-    private var headerShape: UnevenRoundedRectangle {
-        UnevenRoundedRectangle(
-            topLeadingRadius: 16,
-            bottomLeadingRadius: 0,
-            bottomTrailingRadius: 0,
-            topTrailingRadius: 16,
-            style: .continuous
-        )
-    }
-    
-    
     private var imageTopShape: UnevenRoundedRectangle {
         UnevenRoundedRectangle(
             topLeadingRadius: 16,
@@ -41,7 +30,13 @@ struct PostCardView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        let headerShape = UnevenRoundedRectangle(
+            topLeadingRadius: 16, bottomLeadingRadius: 0,
+            bottomTrailingRadius: 0, topTrailingRadius: 16,
+            style: .continuous
+        )
+        
+        let card = VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
                 ZStack(alignment: .top) {
                     // Images: page style
@@ -58,13 +53,13 @@ struct PostCardView: View {
                                     let urlString = pair.element
                                     URLImageView(urlString)
                                         .scaledToFill()
-                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                        .frame(maxWidth: .infinity)
                                         .clipped()
                                         .tag(pair.offset)
                                 }
                             }
                             .frame(maxWidth: .infinity)
-                            .aspectRatio(contentMode: .fit)
+                            .aspectRatio(1, contentMode: .fit)
                             .tabViewStyle(.page(indexDisplayMode: .never))
                             .clipShape(imageTopShape)
                             
@@ -82,27 +77,31 @@ struct PostCardView: View {
                     }
                     
                     // Header: author
-                Button {
-                    container.navigationRouter.push(to: .YourProfileView(userId: item.author.userId))
-                } label: {
-                    HStack(spacing: 8) {
-                        URLImageView(item.author.profileImageUrl ?? "")
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(item.author.nickname)
-                                .font(.suit(.medium, size: 16))
-                                .foregroundStyle(Color.contentBase)
-                            Text(item.author.comment ?? "")
-                                .font(.suit(.light, size: 12))
-                                .foregroundStyle(Color.contentAdditive)
+                    Button {
+                        container.navigationRouter.push(to: .YourProfileView(userId: item.author.userId))
+                    } label: {
+                        HStack(spacing: 8) {
+                            URLImageView(item.author.profileImageUrl ?? "")
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(item.author.nickname)
+                                    .font(.suit(.medium, size: 16))
+                                    .foregroundStyle(Color.contentBase)
+                                Text(item.author.comment ?? "")
+                                    .font(.suit(.light, size: 12))
+                                    .foregroundStyle(Color.contentAdditive)
+                            }
+                            .padding(.horizontal, 4)
+                            Spacer()
+                            
+                            Image("chevron.right")
                         }
-                        .padding(.horizontal, 4)
-                        Spacer()
+                        .frame(maxWidth: .infinity)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
                     }
-                    .frame(maxWidth: .infinity)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 10)
+                    .buttonStyle(.plain) // 기본 버튼 효과 제거 (클릭 UI 안 바뀌게)
                     .background{
                         Rectangle()
                             .fill(.regularMaterial)
@@ -111,9 +110,8 @@ struct PostCardView: View {
                             .fill(Color.backFillStatic.opacity(0.82))
                     }
                 }
-                .buttonStyle(.plain) // 기본 버튼 효과 제거 (클릭 UI 안 바뀌게)
-                }
                 .clipShape(imageTopShape)
+                .padding(.vertical, 10)
 
                 // tags row (shop/style/brand)
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -143,9 +141,10 @@ struct PostCardView: View {
                         }
                     }
                     .padding(.horizontal, 16)
-                    .padding(.vertical, 10)
+//                    .padding(.vertical, 10)
                 }
-
+                .padding(.vertical, 10)
+                
                 // meta + title + content
                 VStack(alignment: .leading, spacing: 2) {
                     Text(item.createdAtRelative)
@@ -161,7 +160,7 @@ struct PostCardView: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                .padding(.vertical, 10)
+//                .padding(.vertical, 10)
             }
             .contentShape(Rectangle())
             .onTapGesture {
@@ -228,6 +227,9 @@ struct PostCardView: View {
             self.isBookmarked = item.bookmarkedByMe
             self.likeCount = item.likesCount
         }
+        
+        card
+            .frame(maxHeight: .infinity, alignment: .top)
     }
 }
 
