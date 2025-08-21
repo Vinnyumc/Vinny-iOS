@@ -91,6 +91,7 @@ struct PostDetailDTO: Decodable, Hashable {
     let shop: PostShopMiniDTO?
     let styles: [PostStyleMiniDTO]
     let brands: [PostBrandMiniDTO]
+    let myPost: Bool
     let likedByMe: Bool
 }
 
