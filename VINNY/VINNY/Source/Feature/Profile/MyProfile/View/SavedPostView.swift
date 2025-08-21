@@ -1,10 +1,3 @@
-//
-//  SavedPostView.swift
-//  VINNY
-//
-//  Created by 한태빈 on 7/24/25.
-//
-
 import SwiftUI
 import Kingfisher
 
@@ -24,30 +17,35 @@ struct SavedPostView: View {
                         Button {
                             container.navigationRouter.push(to: .PostView(id: post.postId))
                         } label: {
-                            if let imageUrl = post.imageUrl,
-                               let url = URL(string: imageUrl) {
-                                KFImage(url)
-                                    .placeholder {
-                                        ZStack {
-                                            Rectangle()
-                                                .foregroundStyle(.gray.opacity(0.2))
-                                            ProgressView()
+                            GeometryReader { geo in
+                                if let imageUrl = post.imageUrl,
+                                   let url = URL(string: imageUrl) {
+                                    KFImage(url)
+                                        .placeholder {
+                                            ZStack {
+                                                Rectangle()
+                                                    .foregroundStyle(.gray.opacity(0.2))
+                                                ProgressView()
+                                            }
                                         }
-                                    }
-                                    .resizable()
-                                    .aspectRatio(1, contentMode: .fit)
-                                    .clipped()
-                            } else {
-                                ZStack {
-                                    Rectangle()
-                                        .fill(Color.gray.opacity(0.1))
-                                        .aspectRatio(1, contentMode: .fit)
-
-                                    Image("noneProfile")
                                         .resizable()
-                                        .aspectRatio(contentMode: .fit)
+                                        .scaledToFill()
+                                        .frame(width: geo.size.width, height: geo.size.width)
+                                        .clipped()
+                                } else {
+                                    ZStack {
+                                        Rectangle()
+                                            .fill(Color.gray.opacity(0.1))
+                                            .frame(width: geo.size.width, height: geo.size.width)
+
+                                        Image("noneProfile")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: geo.size.width * 0.5)
+                                    }
                                 }
                             }
+                            .aspectRatio(1, contentMode: .fit)
                         }
                         .buttonStyle(.plain)
                     }
