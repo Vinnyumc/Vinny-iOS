@@ -19,6 +19,15 @@ struct PostCardView: View {
     @State private var isBookmarked: Bool = false
     @State private var likeCount: Int = 0
     
+    private var headerShape: UnevenRoundedRectangle {
+        UnevenRoundedRectangle(
+            topLeadingRadius: 16,
+            bottomLeadingRadius: 0,
+            bottomTrailingRadius: 0,
+            topTrailingRadius: 16,
+            style: .continuous
+        )
+    }
     private var imageTopShape: UnevenRoundedRectangle {
         UnevenRoundedRectangle(
             topLeadingRadius: 16,
@@ -30,11 +39,6 @@ struct PostCardView: View {
     }
 
     var body: some View {
-        let headerShape = UnevenRoundedRectangle(
-            topLeadingRadius: 16, bottomLeadingRadius: 0,
-            bottomTrailingRadius: 0, topTrailingRadius: 16,
-            style: .continuous
-        )
         
         let card = VStack(alignment: .leading, spacing: 0) {
             VStack(alignment: .leading, spacing: 0) {
@@ -111,7 +115,6 @@ struct PostCardView: View {
                     }
                 }
                 .clipShape(imageTopShape)
-                .padding(.vertical, 10)
 
                 // tags row (shop/style/brand)
                 ScrollView(.horizontal, showsIndicators: false) {
@@ -141,7 +144,7 @@ struct PostCardView: View {
                         }
                     }
                     .padding(.horizontal, 16)
-//                    .padding(.vertical, 10)
+                    .padding(.vertical, 10)
                 }
                 .padding(.vertical, 10)
                 
@@ -160,7 +163,7 @@ struct PostCardView: View {
                     }
                 }
                 .padding(.horizontal, 20)
-//                .padding(.vertical, 10)
+                .padding(.vertical, 10)
             }
             .contentShape(Rectangle())
             .onTapGesture {
