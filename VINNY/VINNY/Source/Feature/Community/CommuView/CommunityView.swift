@@ -94,44 +94,46 @@ struct CommunityView: View {
                 .padding(.vertical, 8)
             }
                 
-                /// 스크롤뷰
-                ScrollView {
-                    LazyVStack(spacing: 0) {
-                        if isLoading {
-                            ProgressView()
-                                .padding(.vertical, 24)
-                        } else if let err = errorMessage {
-                            Text(err)
-                                .foregroundStyle(.red)
-                                .padding(.vertical, 24)
-                        } else {
-                            ForEach(posts, id: \.self) { item in
-                                PostCardView(item: item)
-                                    .environmentObject(container)
-                                    .padding(.horizontal, 16)
-                                    .padding(.vertical, 10)
-                            }
+            /// 스크롤뷰
+            ScrollView(.vertical) {
+                LazyVStack(spacing: 0) {
+                    if isLoading {
+                        ProgressView()
+                            .frame(maxHeight: .infinity)
+                    } else if let err = errorMessage {
+                        Text(err)
+                            .foregroundStyle(.red)
+                            .frame(maxHeight: .infinity)
+                    } else {
+                        ForEach(posts, id: \.self) { item in
+                            PostCardView(item: item)
+                                .environmentObject(container)
+                                .padding(.horizontal, 16)
+                                .containerRelativeFrame(.vertical)
                         }
-                        
-                        Spacer()
-                            .frame(height: 56)
                     }
                     
-                    Spacer().frame(height: 70)
-                    .scrollTargetLayout()
+                    Spacer()
+                        .frame(height: 56)
                 }
-                .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
+                
+                Spacer().frame(height: 70)
             }
-            .background(Color.backFillStatic)
-            .navigationBarBackButtonHidden()
-            .task { await fetchPosts(reset: true) }
-            .refreshable { await fetchPosts(reset: true) }
+//            .scrollTargetBehavior(.viewAligned(limitBehavior: .always))
+            .scrollIndicators(.hidden)
+            .scrollTargetLayout()                   // 스냅 기준을 아이템 단위로
+            .scrollTargetBehavior(.paging)
         }
+        .background(Color.backFillStatic)
+        .navigationBarBackButtonHidden()
+        .task { await fetchPosts(reset: true) }
+        .refreshable { await fetchPosts(reset: true) }
     }
-    
-    #Preview {
-        let container = DIContainer()
-        CommunityView(container: container)
-            .environmentObject(container)
-    }
+}
+
+#Preview {
+    let container = DIContainer()
+    CommunityView(container: container)
+        .environmentObject(container)
+}
 
