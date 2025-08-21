@@ -82,6 +82,9 @@ struct PostCardView: View {
                     }
                     
                     // Header: author
+                Button {
+                    container.navigationRouter.push(to: .YourProfileView(userId: item.author.userId))
+                } label: {
                     HStack(spacing: 8) {
                         URLImageView(item.author.profileImageUrl ?? "")
                             .frame(width: 40, height: 40)
@@ -96,10 +99,6 @@ struct PostCardView: View {
                         }
                         .padding(.horizontal, 4)
                         Spacer()
-                        
-                        Image("chevron.right")
-                            .resizable()
-                            .frame(width: 16, height: 16)
                     }
                     .frame(maxWidth: .infinity)
                     .padding(.horizontal, 16)
@@ -111,6 +110,8 @@ struct PostCardView: View {
                         Rectangle()
                             .fill(Color.backFillStatic.opacity(0.82))
                     }
+                }
+                .buttonStyle(.plain) // 기본 버튼 효과 제거 (클릭 UI 안 바뀌게)
                 }
                 .clipShape(imageTopShape)
 
