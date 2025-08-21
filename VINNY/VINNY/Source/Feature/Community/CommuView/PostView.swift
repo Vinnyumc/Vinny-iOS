@@ -39,15 +39,23 @@ struct PostView: View {
             "게시글",
             isPresented: $isShowingDialog
         ) {
-            Button("수정") {
-                isShowingDialog = false
-                container.editingPostId = postId
-                container.navigationRouter.push(to: .PostEditView(postId: postId))
-            }
-            Button("삭제", role: .destructive) {
-                isShowingDialog = false
-                container.editingPostId = postId
-                isShowingDeleteDialog = true
+            if detail?.myPost == true {
+                Button("수정") {
+                    isShowingDialog = false
+                    container.editingPostId = postId
+                    container.navigationRouter.push(to: .PostEditView(postId: postId))
+                }
+                Button("삭제", role: .destructive) {
+                    isShowingDialog = false
+                    container.editingPostId = postId
+                    isShowingDeleteDialog = true
+                }
+            } else {
+                Button("신고", role: .destructive) {
+                    isShowingDialog = false
+                    print("[PostView] 신고 tapped — postId: \(postId)")
+                    // TODO: Navigate to a report screen if available
+                }
             }
             Button("취소", role: .cancel) {
                 isShowingDialog = false
