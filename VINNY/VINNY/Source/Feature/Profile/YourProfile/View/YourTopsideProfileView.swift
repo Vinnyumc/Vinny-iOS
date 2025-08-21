@@ -19,7 +19,8 @@ struct YourTopsideProfileView: View {
                     height: UIScreen.main.bounds.width
                 )
                 .clipped()
-
+                .opacity(0.9)
+            
             VStack {
                 HStack {
                     Button (action: {

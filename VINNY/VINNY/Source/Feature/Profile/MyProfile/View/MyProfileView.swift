@@ -28,10 +28,13 @@ struct MyProfileView: View {
                 switch selectedTab {
                 case 0:
                     ProfilePostView()
+                        .environmentObject(container)
                 case 1:
                     SavedShopView()
+                        .environmentObject(container)
                 case 2:
                     SavedPostView()
+                        .environmentObject(container)
                 default:
                     EmptyView()
                 }

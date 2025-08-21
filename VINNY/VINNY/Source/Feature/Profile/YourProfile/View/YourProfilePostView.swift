@@ -3,6 +3,7 @@ import Kingfisher
 
 struct YourProfilePostView: View {
     @EnvironmentObject var viewModel: YourpageViewModel
+    @EnvironmentObject var container: DIContainer
 
     private let columns = Array(repeating: GridItem(.flexible(), spacing: 2), count: 3)
 
@@ -13,6 +14,9 @@ struct YourProfilePostView: View {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 2) {
                     ForEach(viewModel.posts, id: \.postId) { post in
+                        Button {
+                            container.navigationRouter.push(to: .PostView(id: post.postId))
+                        } label: {
                         if let imageUrl = post.imageUrl,
                            let url = URL(string: imageUrl) {
                             KFImage(url)
@@ -32,17 +36,19 @@ struct YourProfilePostView: View {
                                 Rectangle()
                                     .fill(Color.gray.opacity(0.1))
                                     .aspectRatio(1, contentMode: .fit)
-
+                                
                                 Image("noneProfile")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                             }
                         }
                     }
+                        .buttonStyle(.plain)
+
+                    }
                 }
                 .padding(.top, 1)
             }
-            .background(Color("BackRootRegular"))
         }
     }
 }
