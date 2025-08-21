@@ -46,13 +46,15 @@ struct ReviewsView: View {
                 
                 Spacer()
                 
-                Button(action: {
-                    onTapDelete(r)
-                }) {
-                    Image("close")
-                        .resizable()
-                        .frame(width: 16, height: 16)
-                }
+                if r.myPost {
+                    Button(action: {
+                        onTapDelete(r)
+                    }) {
+                        Image("close")
+                            .resizable()
+                            .frame(width: 16, height: 16)
+                    }
+                } else { }
             }
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
