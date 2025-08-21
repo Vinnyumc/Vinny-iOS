@@ -12,6 +12,8 @@ struct ShopReview: Decodable, Identifiable, Hashable {
     //코스 ID
     var id: Int { reviewId }
     let reviewId : Int
+    let userProfileImage: String
+    let userComment: String
     let title : String
     let content : String
     let userName : String

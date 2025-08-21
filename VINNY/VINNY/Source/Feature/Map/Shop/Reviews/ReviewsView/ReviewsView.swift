@@ -32,14 +32,15 @@ struct ReviewsView: View {
     private func ReviewsCard(_ r: ShopReview) -> some View {
         VStack(spacing: 0) {
             HStack(spacing: 8) {
-                Image("emptyImage")
-                    .resizable()
+                URLImageView(r.userProfileImage)
                     .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+                
                 VStack(alignment: .leading, spacing: 2) {
                     Text(r.userName)
                         .font(.suit(.medium, size: 16))
                         .foregroundStyle(Color.contentBase)
-                    Text(r.userName)
+                    Text(r.userComment)
                         .font(.suit(.regular, size: 12))
                         .foregroundStyle(Color.contentAdditive)
                 }

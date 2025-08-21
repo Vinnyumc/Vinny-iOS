@@ -35,7 +35,6 @@ struct CommunityView: View {
                 let filtered = newPosts.filter { seen.insert($0.postId).inserted }
                 posts += filtered
             }
-
             // Update paging info from server response
             let info = result.pageInfo
             // Prepare next page index and whether there is a next page

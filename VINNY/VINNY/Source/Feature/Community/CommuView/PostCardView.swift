@@ -236,7 +236,7 @@ struct PostCardView: View {
     }
 }
 
-private struct URLImageView: View {
+struct URLImageView: View {
     private let urlString: String
     init(_ urlString: String) { self.urlString = urlString }
 
