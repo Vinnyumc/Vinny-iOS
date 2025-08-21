@@ -15,7 +15,7 @@ struct MypageProfileResponse: Decodable, Equatable {
 //작성한 게시글 썸네일 목록 조회
 struct MypageWrittenPostsResponse: Decodable {
     let postId: Int
-    let imageUrl: String
+    let imageUrl: String?
 }
 
 // 찜한 샵 목록 조회

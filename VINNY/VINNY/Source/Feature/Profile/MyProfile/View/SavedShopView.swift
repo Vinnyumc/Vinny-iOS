@@ -29,10 +29,12 @@ struct SavedShopView: View {
 }
 
 struct ShopCardView: View {
+    @EnvironmentObject var container: DIContainer
     let shop: MypageSavedShopsResponse
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
+            // 상단 프로필 + 상호명 + 버튼
             HStack(spacing: 8) {
                 KFImage(URL(string: shop.thumbnailUrl))
                     .resizable()
@@ -50,11 +52,13 @@ struct ShopCardView: View {
 
                 Spacer()
 
-                Image("likeFill") // API에서 찜 여부 없으므로 고정
+                Image("chevron.right")
                     .resizable()
-                    .frame(width: 24, height: 24)
+                    .frame(width: 16, height: 16)
             }
+            .padding(.vertical, 8)
 
+            // 지역명 + 태그
             HStack(spacing: 6) {
                 HStack(spacing: 4) {
                     Image("mapPin")
@@ -77,6 +81,7 @@ struct ShopCardView: View {
             }
             .padding(.vertical, 8)
 
+            // 썸네일 이미지
             KFImage(URL(string: shop.thumbnailUrl))
                 .resizable()
                 .aspectRatio(contentMode: .fill)
@@ -87,10 +92,12 @@ struct ShopCardView: View {
             Divider()
                 .padding(.bottom, 12)
         }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            print("전체 VStack 클릭됨")
+            container.navigationRouter.push(to: .ShopView(id: shop.shopId))
+        }
     }
 }
 
 
-#Preview {
-    SavedShopView()
-}

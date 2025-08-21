@@ -23,6 +23,7 @@ struct YourSavedShopView: View {
 }
 
 struct YourShopCardView: View {
+    @EnvironmentObject var container: DIContainer
     let shop: YourSavedShopResponse
 
     var body: some View {
@@ -30,10 +31,6 @@ struct YourShopCardView: View {
             // 상단: 이미지 + 이름/주소 + 하트
             HStack(spacing: 8) {
                 KFImage(URL(string: shop.imageUrls.first ?? ""))
-                    .placeholder {
-                        Image("emptyImage")
-                            .resizable()
-                    }
                     .resizable()
                     .frame(width: 40, height: 40)
                     .clipShape(Circle())
@@ -49,16 +46,9 @@ struct YourShopCardView: View {
 
                 Spacer()
 
-                Image("likeFill") // 고정된 찜 이미지
+                Image("chevron.right")
                     .resizable()
-                    .frame(width: 24, height: 24)
-//                Button(action: {
-//                    container.navigationRouter.push(to: .ShopView(id: shop.shopId))
-//                }) {
-//                    Image("chevron.right")
-//                        .resizable()
-//                        .frame(width: 16, height: 16)
-//                }
+                    .frame(width: 16, height: 16)
             }
 
             // 지역 + 스타일 태그들
@@ -99,12 +89,9 @@ struct YourShopCardView: View {
             Divider()
                 .padding(.bottom, 12)
         }
+        .contentShape(Rectangle()) // 전체 터치 영역 확대
+        .onTapGesture {
+            container.navigationRouter.push(to: .ShopView(id: shop.shopId))
+        }
     }
-}
-
-#Preview {
-    YourSavedShopView()
-        .environmentObject(YourpageViewModel(
-            useCase: DefaultNetworkManager<UsersAPITarget>()
-        ))
 }

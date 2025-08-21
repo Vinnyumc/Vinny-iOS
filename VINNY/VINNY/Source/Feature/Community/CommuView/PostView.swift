@@ -98,19 +98,29 @@ struct PostView: View {
 
     private func headerInfo(d: PostDetailDTO) -> some View {
         HStack(spacing: 8) {
-            URLImageView(d.author.profileImageUrl ?? "")
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
-            VStack(alignment: .leading, spacing: 2) {
-                Text(d.author.nickname)
-                    .font(.suit(.medium, size: 16))
-                    .foregroundStyle(Color.contentBase)
-                Text(d.createdAtRelative)
-                    .font(.suit(.light, size: 12))
-                    .foregroundStyle(Color.contentAdditive)
+            Button {
+                container.navigationRouter.push(to: .YourProfileView(userId: d.author.userId))
+            } label: {
+                HStack(spacing: 8) {
+                    URLImageView(d.author.profileImageUrl ?? "")
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(d.author.nickname)
+                            .font(.suit(.medium, size: 16))
+                            .foregroundStyle(Color.contentBase)
+                        Text(d.createdAtRelative)
+                            .font(.suit(.light, size: 12))
+                            .foregroundStyle(Color.contentAdditive)
+                    }
+                    .padding(.horizontal, 4)
+                }
             }
-            .padding(.horizontal, 4)
+            .buttonStyle(PlainButtonStyle())
+            .contentShape(Rectangle()) // 터치 범위 제한
+
             Spacer()
+
             Button(action: {
                 isShowingDialog = true
             }) {
