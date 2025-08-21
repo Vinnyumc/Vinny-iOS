@@ -30,7 +30,7 @@ struct CommunityView: View {
                 posts += result.posts
             }
             // 다음 페이지 로딩이 필요하면 아래 주석 해제
-            // page += 1
+//             page += 1
         } catch {
             errorMessage = error.localizedDescription
         }

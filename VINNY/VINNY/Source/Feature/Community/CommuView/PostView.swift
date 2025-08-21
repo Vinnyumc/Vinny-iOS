@@ -290,37 +290,3 @@ struct PostView: View {
         }
     }
 }
-
-private struct URLImageView: View {
-    private let urlString: String
-    init(_ urlString: String) { self.urlString = urlString }
-
-    var body: some View {
-        Group {
-            if let url = URL(string: urlString), !urlString.isEmpty {
-                AsyncImage(url: url) { phase in
-                    switch phase {
-                    case .empty:
-                        ZStack { Color.clear; ProgressView() }
-                    case .success(let image):
-                        image
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    case .failure:
-                        Image("emptyImage")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    @unknown default:
-                        Image("emptyImage")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                    }
-                }
-            } else {
-                Image("emptyImage")
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            }
-        }
-    }
-}
